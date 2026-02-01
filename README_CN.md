@@ -6,10 +6,19 @@
 [![SQLite](https://img.shields.io/badge/SQLite-3-003B57?style=flat-square&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
 [![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 [![Tests](https://img.shields.io/badge/Tests-158%20passed-success?style=flat-square)](tests/)
+[![演示文稿](https://img.shields.io/badge/📊_在线演示-查看幻灯片-00d4ff?style=flat-square)](https://zhangzhefang-github.github.io/palantir-style-semantic-layer/presentation.html)
 
 **语义层运行时控制面参考架构 POC**
 
 [English](README.md) | [中文](README_CN.md)
+
+<br>
+
+<a href="https://zhangzhefang-github.github.io/palantir-style-semantic-layer/presentation.html">
+  <img src="https://img.shields.io/badge/🎬_交互式演示文稿-点击查看-1a1a2e?style=for-the-badge&labelColor=0f3460" alt="查看演示"/>
+</a>
+
+<sub>14 页幻灯片 · 使用 ← → 键翻页 · 支持移动端</sub>
 
 </div>
 

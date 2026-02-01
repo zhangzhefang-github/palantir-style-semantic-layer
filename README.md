@@ -6,10 +6,19 @@
 [![SQLite](https://img.shields.io/badge/SQLite-3-003B57?style=flat-square&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
 [![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 [![Tests](https://img.shields.io/badge/Tests-158%20passed-success?style=flat-square)](tests/)
+[![Presentation](https://img.shields.io/badge/📊_Live_Demo-View_Slides-00d4ff?style=flat-square)](https://zhangzhefang-github.github.io/palantir-style-semantic-layer/presentation.html)
 
 **A Reference Architecture POC for Semantic Layer as a Runtime Control Plane**
 
 [English](README.md) | [中文](README_CN.md)
+
+<br>
+
+<a href="https://zhangzhefang-github.github.io/palantir-style-semantic-layer/presentation.html">
+  <img src="https://img.shields.io/badge/🎬_Interactive_Presentation-Click_to_View-1a1a2e?style=for-the-badge&labelColor=0f3460" alt="View Presentation"/>
+</a>
+
+<sub>14 slides · Use ← → keys to navigate · Mobile friendly</sub>
 
 </div>
 
