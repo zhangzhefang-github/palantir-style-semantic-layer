@@ -62,6 +62,7 @@ CREATE TABLE ontology_entity (
     name TEXT NOT NULL UNIQUE,
     description TEXT,
     domain TEXT NOT NULL,
+    entity_type TEXT DEFAULT 'dimension',  -- 'fact' or 'dimension'
     status TEXT NOT NULL DEFAULT 'active',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -76,6 +77,8 @@ CREATE TABLE ontology_dimension (
     name TEXT NOT NULL,
     description TEXT,
     data_type TEXT NOT NULL,   -- string, date, number, bool
+    is_time INTEGER DEFAULT 0, -- 1 if this is a time dimension
+    grain_level TEXT,          -- 'day', 'week', 'month', 'quarter', 'year' for time dimensions
     status TEXT NOT NULL DEFAULT 'active',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (entity_id) REFERENCES ontology_entity(id),
@@ -107,9 +110,12 @@ CREATE TABLE ontology_relationship (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     from_entity_id INTEGER NOT NULL,
     to_entity_id INTEGER NOT NULL,
-    relationship_type TEXT NOT NULL,  -- e.g., "has_many", "belongs_to"
+    relationship_type TEXT NOT NULL,  -- e.g., "has_many", "belongs_to", "conversion_link", "weak_link"
     description TEXT,
-    cardinality TEXT,                 -- e.g., "1:N", "N:1", "1:1"
+    cardinality TEXT,                 -- e.g., "one_to_many", "many_to_one", "one_to_one", "many_to_many"
+    join_keys TEXT,                   -- JSON array of join keys, e.g., '["user_id"]'
+    link_strength TEXT DEFAULT 'strong',  -- 'strong', 'medium', 'weak' - for causal inference
+    allows_causal INTEGER DEFAULT 1,  -- 1=causal inference allowed, 0=correlation only
     status TEXT NOT NULL DEFAULT 'active',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (from_entity_id) REFERENCES ontology_entity(id),

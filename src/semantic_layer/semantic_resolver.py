@@ -193,16 +193,29 @@ class SemanticResolver:
         # Known Chinese phrases and their English equivalents
         # Format: (chinese_phrase, english_equivalent)
         known_phrases = [
+            # FPY - First Pass Yield
             ('一次合格率', 'FPY'),
             ('直通率', 'FPY'),
             ('良率', 'FPY'),
             ('合格率', 'FPY'),
+            # Output
             ('产量', 'Output'),
             ('产出数量', 'Output'),
             ('生产量', 'Output'),
+            # Defect Rate
             ('不良率', 'Defect'),
             ('次品率', 'Defect'),
             ('缺陷率', 'Defect'),
+            # Gross Margin - 毛利率 (PPT Demo Scenario)
+            ('毛利率', 'GrossMargin'),
+            ('毛利', 'GrossMargin'),
+            ('利润率', 'GrossMargin'),
+            # Order metrics
+            ('订单数', 'OrderCount'),
+            ('订单量', 'OrderCount'),
+            # Click Rate
+            ('点击率', 'ClickRate'),
+            ('CTR', 'ClickRate'),
         ]
 
         keywords = []
