@@ -103,9 +103,13 @@
             padding: 20px;
             margin: 20px 0;
             font-family: 'Fira Code', 'Consolas', monospace;
-            font-size: 1.1em;
+            font-size: 1em;
             overflow-x: auto;
             border-left: 4px solid #00d4ff;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            line-height: 1.6;
+            text-align: left;
         }
         
         .architecture-box {
@@ -582,41 +586,69 @@
     <div class="slide" id="slide6">
         <h2>🎬 演示结果</h2>
         
-        <div class="two-column">
-            <div>
-                <h3>输入</h3>
+        <div class="demo-result-container">
+            <div class="demo-section">
+                <h3>📥 输入</h3>
                 <div class="code-block">
-问题: "上月华东区毛利率是多少？"
+<span class="code-comment"># 问题</span>
+question = <span class="code-string">"上月华东区毛利率是多少？"</span>
 
-参数:
-  region: '华东'
-  period: '2026-01'
-  scenario: {'department': 'finance'}
-                </div>
+<span class="code-comment"># 参数</span>
+parameters = {
+    <span class="code-key">"region"</span>: <span class="code-string">"华东"</span>,
+    <span class="code-key">"period"</span>: <span class="code-string">"2026-01"</span>,
+    <span class="code-key">"scenario"</span>: {<span class="code-key">"department"</span>: <span class="code-string">"finance"</span>}
+}</div>
             </div>
-            <div>
-                <h3>输出</h3>
+            <div class="demo-section">
+                <h3>📤 输出</h3>
                 <div class="code-block">
 {
-  "status": "<span class="success">success</span>",
-  "semantic_object": "GrossMargin",
-  "version": "GrossMargin_v1_finance",
-  "logic": "(revenue - total_cost) / revenue",
-  "data": [{"gross_margin": <span class="highlight">0.235</span>}],
-  "audit_id": "20260201_143022_a8f3e2b1",
-  "decision_trace": [/* 15 步 */]
-}
-                </div>
+  <span class="code-key">"status"</span>: <span class="success">"success"</span>,
+  <span class="code-key">"semantic_object"</span>: <span class="code-string">"GrossMargin"</span>,
+  <span class="code-key">"version"</span>: <span class="code-string">"GrossMargin_v1_finance"</span>,
+  <span class="code-key">"logic"</span>: <span class="code-string">"(revenue - total_cost) / revenue"</span>,
+  <span class="code-key">"data"</span>: [{<span class="code-key">"gross_margin"</span>: <span class="highlight">0.235</span>}],
+  <span class="code-key">"audit_id"</span>: <span class="code-string">"20260201_143022_a8f3e2b1"</span>,
+  <span class="code-key">"decision_trace"</span>: [<span class="code-comment">/* 15 步完整记录 */</span>]
+}</div>
             </div>
         </div>
         
-        <div class="architecture-box" style="margin-top: 30px;">
-            <p style="font-size: 1.3em;">
-                <span class="emoji">💰</span> 财务口径：(收入 ¥5,000万 - 成本 ¥3,825万) / 收入 = <span class="highlight">23.5%</span><br>
-                <span class="emoji">📈</span> 销售口径：(收入 ¥5,000万 - 直接成本 ¥3,590万) / 收入 = <span class="warning">28.2%</span><br>
-                <span class="emoji">✅</span> 系统明确返回 <span class="highlight">财务口径 23.5%</span>，并记录完整决策链
-            </p>
+        <div class="result-summary">
+            <div class="summary-item finance">
+                <span class="summary-icon">💰</span>
+                <span class="summary-label">财务口径</span>
+                <span class="summary-formula">(收入 - 总成本) / 收入</span>
+                <span class="summary-result highlight">= 23.5%</span>
+            </div>
+            <div class="summary-item sales">
+                <span class="summary-icon">📈</span>
+                <span class="summary-label">销售口径</span>
+                <span class="summary-formula">(收入 - 直接成本) / 收入</span>
+                <span class="summary-result warning">= 28.2%</span>
+            </div>
+            <div class="summary-conclusion">
+                ✅ 系统根据 <code>scenario</code> 返回 <span class="highlight">财务口径 23.5%</span>，并记录完整决策链
+            </div>
         </div>
+        
+        <style>
+            .demo-result-container { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 20px 0; }
+            .demo-section h3 { color: #00d4ff; margin-bottom: 15px; font-size: 1.4em; }
+            .code-comment { color: #6a737d; font-style: italic; }
+            .code-string { color: #a5d6ff; }
+            .code-key { color: #7ee787; }
+            .result-summary { background: rgba(0,0,0,0.3); border-radius: 15px; padding: 25px; margin-top: 20px; }
+            .summary-item { display: flex; align-items: center; gap: 15px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 1.2em; }
+            .summary-item:last-of-type { border-bottom: none; }
+            .summary-icon { font-size: 1.5em; }
+            .summary-label { font-weight: bold; min-width: 100px; }
+            .summary-formula { color: rgba(255,255,255,0.7); font-family: 'Fira Code', monospace; flex: 1; }
+            .summary-result { font-weight: bold; font-size: 1.3em; }
+            .summary-conclusion { margin-top: 15px; padding-top: 15px; border-top: 2px solid rgba(0,212,255,0.3); font-size: 1.2em; text-align: center; }
+            .summary-conclusion code { background: rgba(0,212,255,0.2); padding: 2px 8px; border-radius: 4px; color: #00d4ff; }
+        </style>
     </div>
     
     <!-- Slide 7: Enterprise Value -->
@@ -750,15 +782,25 @@ $ pytest tests/ -v
     <!-- Slide 11: Thank You -->
     <div class="slide title-slide" id="slide11">
         <h1>🎉 感谢聆听</h1>
-        <p>Q&A</p>
-        <br><br>
-        <div class="code-block" style="display: inline-block; text-align: left;">
-# 快速体验
-git clone https://github.com/zhangzhefang-github/palantir-style-semantic-layer.git
-cd palantir-style-semantic-layer
-pip install -r requirements.txt
-python3 demo_detailed_logs.py
+        <p style="font-size: 2em; margin-bottom: 40px;">Q&A</p>
+        
+        <div class="quick-start-box">
+            <div class="quick-start-title">🚀 快速体验</div>
+            <div class="quick-start-commands">
+                <div class="cmd-line"><span class="cmd-prompt">$</span> git clone https://github.com/zhangzhefang-github/palantir-style-semantic-layer.git</div>
+                <div class="cmd-line"><span class="cmd-prompt">$</span> cd palantir-style-semantic-layer</div>
+                <div class="cmd-line"><span class="cmd-prompt">$</span> pip install -r requirements.txt</div>
+                <div class="cmd-line"><span class="cmd-prompt">$</span> python3 demo_detailed_logs.py</div>
+            </div>
         </div>
+        
+        <style>
+            .quick-start-box { background: #0d1117; border-radius: 15px; padding: 30px 40px; display: inline-block; text-align: left; border: 2px solid rgba(0,212,255,0.3); max-width: 800px; }
+            .quick-start-title { color: #00d4ff; font-size: 1.3em; font-weight: bold; margin-bottom: 20px; text-align: center; }
+            .quick-start-commands { font-family: 'Fira Code', 'Consolas', monospace; font-size: 1em; line-height: 2.2; }
+            .cmd-line { padding: 5px 0; }
+            .cmd-prompt { color: #7ee787; margin-right: 10px; }
+        </style>
     </div>
     
     <!-- Navigation -->
