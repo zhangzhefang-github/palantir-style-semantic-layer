@@ -24,6 +24,37 @@
 4. **回归测试（Regression）**
    - 每次结构调整或接口变更后运行全量 `pytest`
 
+### Mock 策略（Mock Strategy）
+
+本项目遵循 **Google Testing Blog** 和 **Martin Fowler 测试金字塔** 的最佳实践：
+
+| Mock 类型 | 使用场景 | 示例 |
+|----------|---------|------|
+| **数据库状态 Mock** | 模拟边界条件（如无版本、无权限） | `test_non_existent_semantic_version` |
+| **Fixture Mock** | 提供可重复的测试数据 | `conftest.py` 中的 `test_db_path` |
+| **时间 Mock** | 固定日期以保证可重复性 | `2026-01-27` 作为 Yesterday |
+
+**Mock 代码规范：**
+```python
+def test_xxx(self, test_db_path):
+    """测试描述
+    
+    Test Type: [Unit/Integration/E2E] test with [mock type]
+    
+    Mock Strategy:
+        说明为什么使用 mock 以及 mock 了什么
+    
+    Expected Behavior:
+        预期行为描述
+    
+    Related Production Scenario:
+        对应的生产场景
+    """
+    # ARRANGE: 准备测试数据/mock 状态
+    # ACT: 执行被测试的操作
+    # ASSERT: 验证结果
+```
+
 ### 运行前提（稳定性保障）
 - 使用 `schema.sql` + `seed_data.sql`
 - 固定日期：

@@ -184,21 +184,58 @@ class TestErrorScenarios:
         assert 'status' in result
 
     def test_non_existent_semantic_version(self, test_db_path):
-        """Test query for semantic object with no versions at all."""
+        """Test query for semantic object with no versions at all.
+        
+        Test Type: Integration test with mock data manipulation
+        
+        Mock Strategy:
+            Instead of creating a separate test database without versions,
+            we modify the existing test database by deleting all versions
+            for a specific semantic object (FPY). This approach:
+            - Avoids maintaining duplicate test fixtures
+            - Tests the real resolution path with controlled data state
+            - Simulates production scenario: "orphaned semantic object"
+        
+        Expected Behavior:
+            When no versions exist for a semantic object, the system should
+            return an error status rather than crash or return invalid data.
+        
+        Related Production Scenario:
+            - Admin deletes all versions during migration
+            - Version cleanup job runs before new versions are added
+        """
         import sqlite3
         
-        # Delete all versions and related data for FPY in the test database
+        # ============================================================
+        # ARRANGE: Create mock state by removing all versions for FPY
+        # ============================================================
         conn = sqlite3.connect(test_db_path)
         cursor = conn.cursor()
-        # Delete physical mappings first (foreign key)
-        cursor.execute("DELETE FROM physical_mapping WHERE logical_definition_id IN (SELECT id FROM logical_definition WHERE semantic_version_id IN (SELECT id FROM semantic_version WHERE semantic_object_id = 1))")
-        # Delete logical definitions (foreign key)
-        cursor.execute("DELETE FROM logical_definition WHERE semantic_version_id IN (SELECT id FROM semantic_version WHERE semantic_object_id = 1)")
-        # Delete all versions for FPY
+        
+        # Must delete in order due to foreign key constraints:
+        # physical_mapping → logical_definition → semantic_version
+        cursor.execute("""
+            DELETE FROM physical_mapping 
+            WHERE logical_definition_id IN (
+                SELECT id FROM logical_definition 
+                WHERE semantic_version_id IN (
+                    SELECT id FROM semantic_version WHERE semantic_object_id = 1
+                )
+            )
+        """)
+        cursor.execute("""
+            DELETE FROM logical_definition 
+            WHERE semantic_version_id IN (
+                SELECT id FROM semantic_version WHERE semantic_object_id = 1
+            )
+        """)
         cursor.execute("DELETE FROM semantic_version WHERE semantic_object_id = 1")
         conn.commit()
         conn.close()
         
+        # ============================================================
+        # ACT: Query the semantic object with no versions
+        # ============================================================
         orchestrator = SemanticOrchestrator(test_db_path)
         context = ExecutionContext(
             user_id=1,
@@ -207,15 +244,17 @@ class TestErrorScenarios:
             timestamp=datetime.now()
         )
         
-        # Should raise error or return error status when no versions exist
         result = orchestrator.query(
             question="昨天产线A的一次合格率是多少？",
             parameters={'line': 'A', 'start_date': '2026-01-27', 'end_date': '2026-01-27'},
             context=context
         )
         
-        # Either returns error status or raises exception
-        assert result.get('status') in ['error', False] or 'error' in str(result).lower()
+        # ============================================================
+        # ASSERT: System should return error, not crash or return bad data
+        # ============================================================
+        assert result.get('status') in ['error', False] or 'error' in str(result).lower(), \
+            f"Expected error status when no versions exist, got: {result.get('status')}"
 
     def test_database_connection_failure(self, test_db_path):
         """Test behavior when database is unavailable."""
