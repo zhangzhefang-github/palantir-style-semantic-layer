@@ -35,6 +35,13 @@ INSERT INTO semantic_object (name, description, aliases, domain, status) VALUES
     '["质量评分", "Quality Score", "Quality KPI", "综合质量"]',
     'quality',
     'active'
+),
+(
+    'GrossMargin',
+    'Gross Margin - 毛利率，衡量盈利能力的关键指标',
+    '["毛利率", "毛利", "Gross Margin", "GP Margin", "利润率"]',
+    'finance',
+    'active'
 );
 
 -- ============================================================
@@ -61,6 +68,18 @@ INSERT INTO semantic_version (semantic_object_id, version_name, effective_from, 
 INSERT INTO semantic_version (semantic_object_id, version_name, effective_from, scenario_condition, is_active, priority, description) VALUES
 (4, 'QualityScore_v1', '2024-01-01 00:00:00', NULL, 1, 0, '综合质量指标：0.7*FPY + 0.3*(1-DefectRate)');
 
+-- GrossMargin Version 1: Finance department calculation (conservative)
+INSERT INTO semantic_version (semantic_object_id, version_name, effective_from, scenario_condition, is_active, priority, description) VALUES
+(5, 'GrossMargin_v1_finance', '2024-01-01 00:00:00', '{"department": "finance"}', 1, 10, '财务部口径：(收入-总成本)/收入，含所有成本项');
+
+-- GrossMargin Version 2: Sales department calculation (optimistic)
+INSERT INTO semantic_version (semantic_object_id, version_name, effective_from, scenario_condition, is_active, priority, description) VALUES
+(5, 'GrossMargin_v2_sales', '2024-01-01 00:00:00', '{"department": "sales"}', 1, 10, '销售部口径：(收入-直接成本)/收入，不含间接费用');
+
+-- GrossMargin Version 3: Default (no department specified)
+INSERT INTO semantic_version (semantic_object_id, version_name, effective_from, scenario_condition, is_active, priority, description) VALUES
+(5, 'GrossMargin_v0_default', '2024-01-01 00:00:00', NULL, 1, 0, '默认口径：标准毛利率计算');
+
 -- ============================================================
 -- 3️⃣ LOGICAL DEFINITIONS
 -- Pure business formulas, no physical details
@@ -84,6 +103,18 @@ INSERT INTO logical_definition (semantic_version_id, expression, grain, descript
 -- QualityScore: 0.7*FPY + 0.3*(1-DefectRate)
 INSERT INTO logical_definition (semantic_version_id, expression, grain, description, variables) VALUES
 (5, '0.7*{{ metric:FPY }} + 0.3*(1-{{ metric:DefectRate }})', 'line,day', '综合质量指标（示例）', '["FPY", "DefectRate"]');
+
+-- GrossMargin v1 (Finance): (revenue - total_cost) / revenue
+INSERT INTO logical_definition (semantic_version_id, expression, grain, description, variables) VALUES
+(6, '(revenue - total_cost) / revenue', 'region,month', '财务口径毛利率：(收入-总成本)/收入', '["revenue", "total_cost"]');
+
+-- GrossMargin v2 (Sales): (revenue - direct_cost) / revenue
+INSERT INTO logical_definition (semantic_version_id, expression, grain, description, variables) VALUES
+(7, '(revenue - direct_cost) / revenue', 'region,month', '销售口径毛利率：(收入-直接成本)/收入', '["revenue", "direct_cost"]');
+
+-- GrossMargin v0 (Default): same as finance
+INSERT INTO logical_definition (semantic_version_id, expression, grain, description, variables) VALUES
+(8, '(revenue - total_cost) / revenue', 'region,month', '默认口径毛利率', '["revenue", "total_cost"]');
 
 -- ============================================================
 -- 4️⃣ PHYSICAL MAPPINGS
@@ -178,6 +209,51 @@ FROM calc
 'SQLite implementation for QualityScore composite KPI'
 );
 
+-- GrossMargin v1 (Finance) SQLite mapping
+INSERT INTO physical_mapping (logical_definition_id, engine_type, connection_ref, sql_template, params_schema, priority, description) VALUES
+(6, 'sqlite', 'default',
+'
+SELECT
+    (SUM(CAST(revenue AS REAL)) - SUM(CAST(total_cost AS REAL))) / SUM(CAST(revenue AS REAL)) AS gross_margin
+FROM fact_finance_records
+WHERE region = :region
+  AND period = :period
+',
+'{"region": "string", "period": "string"}',
+2,
+'SQLite implementation for GrossMargin (Finance口径)'
+);
+
+-- GrossMargin v2 (Sales) SQLite mapping
+INSERT INTO physical_mapping (logical_definition_id, engine_type, connection_ref, sql_template, params_schema, priority, description) VALUES
+(7, 'sqlite', 'default',
+'
+SELECT
+    (SUM(CAST(revenue AS REAL)) - SUM(CAST(direct_cost AS REAL))) / SUM(CAST(revenue AS REAL)) AS gross_margin
+FROM fact_finance_records
+WHERE region = :region
+  AND period = :period
+',
+'{"region": "string", "period": "string"}',
+2,
+'SQLite implementation for GrossMargin (Sales口径)'
+);
+
+-- GrossMargin v0 (Default) SQLite mapping
+INSERT INTO physical_mapping (logical_definition_id, engine_type, connection_ref, sql_template, params_schema, priority, description) VALUES
+(8, 'sqlite', 'default',
+'
+SELECT
+    (SUM(CAST(revenue AS REAL)) - SUM(CAST(total_cost AS REAL))) / SUM(CAST(revenue AS REAL)) AS gross_margin
+FROM fact_finance_records
+WHERE region = :region
+  AND period = :period
+',
+'{"region": "string", "period": "string"}',
+1,
+'SQLite implementation for GrossMargin (Default)'
+);
+
 
 -- ============================================================
 -- 5️⃣ ACCESS POLICIES
@@ -198,6 +274,18 @@ INSERT INTO access_policy (semantic_object_id, role, action, condition, effect, 
 -- Operators can query QualityScore
 INSERT INTO access_policy (semantic_object_id, role, action, condition, effect, priority) VALUES
 (4, 'operator', 'query', NULL, 'allow', 1);
+
+-- Finance managers can query GrossMargin
+INSERT INTO access_policy (semantic_object_id, role, action, condition, effect, priority) VALUES
+(5, 'finance_manager', 'query', NULL, 'allow', 1);
+
+-- Sales managers can query GrossMargin
+INSERT INTO access_policy (semantic_object_id, role, action, condition, effect, priority) VALUES
+(5, 'sales_manager', 'query', NULL, 'allow', 1);
+
+-- Operators can query GrossMargin (default)
+INSERT INTO access_policy (semantic_object_id, role, action, condition, effect, priority) VALUES
+(5, 'operator', 'query', NULL, 'allow', 1);
 
 -- ============================================================
 -- 5️⃣.1 ONTOLOGY SEED DATA
@@ -250,6 +338,24 @@ INSERT INTO access_policy (semantic_object_id, role, action, condition, effect, 
 -- Analysts can export data (example for future use)
 INSERT INTO access_policy (semantic_object_id, role, action, condition, effect, priority) VALUES
 (1, 'analyst', 'export', NULL, 'allow', 1);
+
+-- ============================================================
+-- MOCK FINANCE DATA (for GrossMargin scenario)
+-- 数据设计使得：
+--   财务口径 (revenue-total_cost)/revenue = 23.5%
+--   销售口径 (revenue-direct_cost)/revenue = 28.2%
+-- ============================================================
+INSERT INTO fact_finance_records (period, region, product_line, revenue, direct_cost, indirect_cost, total_cost) VALUES
+-- 2026-01 华东区数据 (与 PPT 一致: 财务 23.5%, 销售 28.2%)
+('2026-01', '华东', 'ProductA', 1000000, 718000, 47000, 765000),
+('2026-01', '华东', 'ProductB', 800000, 574400, 37600, 612000),
+('2026-01', '华东', 'ProductC', 600000, 430800, 28200, 459000),
+-- 2026-01 华北区数据
+('2026-01', '华北', 'ProductA', 900000, 646200, 42300, 688500),
+('2026-01', '华北', 'ProductB', 700000, 502600, 32900, 535500),
+-- 2025-12 华东区数据（上月）
+('2025-12', '华东', 'ProductA', 950000, 682100, 44650, 726750),
+('2025-12', '华东', 'ProductB', 750000, 538500, 35250, 573750);
 
 -- ============================================================
 -- MOCK PRODUCTION DATA

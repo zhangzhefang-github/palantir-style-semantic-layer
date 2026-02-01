@@ -184,7 +184,7 @@ class TestSemanticOrchestratorIntegration:
 
         objects = orchestrator.list_semantic_objects()
 
-        assert len(objects) == 4
+        assert len(objects) == 5  # FPY, OutputQty, DefectRate, QualityScore, GrossMargin
         assert any(obj['name'] == 'FPY' for obj in objects)
         assert any(obj['name'] == 'OutputQty' for obj in objects)
         assert any(obj['name'] == 'DefectRate' for obj in objects)

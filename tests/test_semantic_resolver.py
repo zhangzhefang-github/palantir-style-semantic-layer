@@ -150,7 +150,7 @@ class TestSemanticResolver:
 
         objects = resolver.get_all_semantic_objects()
 
-        assert len(objects) == 4  # FPY, OutputQty, DefectRate, QualityScore
+        assert len(objects) == 5  # FPY, OutputQty, DefectRate, QualityScore, GrossMargin
         assert any(obj.name == 'FPY' for obj in objects)
         assert any(obj.name == 'OutputQty' for obj in objects)
         assert any(obj.name == 'DefectRate' for obj in objects)

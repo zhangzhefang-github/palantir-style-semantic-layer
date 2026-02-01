@@ -17,6 +17,8 @@ DROP TABLE IF EXISTS ontology_attribute;
 DROP TABLE IF EXISTS ontology_dimension;
 DROP TABLE IF EXISTS ontology_entity;
 DROP TABLE IF EXISTS semantic_object;
+DROP TABLE IF EXISTS fact_production_records;
+DROP TABLE IF EXISTS fact_finance_records;
 
 -- ============================================================
 -- 1️⃣ SEMANTIC_OBJECT
@@ -284,6 +286,22 @@ CREATE TABLE fact_production_records (
 );
 
 -- ============================================================
+-- MOCK FINANCE DATA
+-- Fact table for finance records (毛利率场景)
+-- ============================================================
+CREATE TABLE fact_finance_records (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    period TEXT NOT NULL,           -- e.g., '2026-01'
+    region TEXT NOT NULL,           -- e.g., '华东', '华北'
+    product_line TEXT,              -- e.g., 'ProductA'
+    revenue DECIMAL(15,2) NOT NULL, -- 收入
+    direct_cost DECIMAL(15,2) NOT NULL,   -- 直接成本
+    indirect_cost DECIMAL(15,2) DEFAULT 0, -- 间接成本
+    total_cost DECIMAL(15,2) NOT NULL,    -- 总成本 = direct_cost + indirect_cost
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ============================================================
 -- INDEXES for performance
 -- ============================================================
 CREATE INDEX idx_semantic_object_name ON semantic_object(name);
@@ -316,3 +334,10 @@ CREATE INDEX idx_execution_audit_date ON execution_audit(executed_at);
 CREATE INDEX idx_fact_records_date ON fact_production_records(record_date);
 CREATE INDEX idx_fact_records_line ON fact_production_records(line);
 CREATE INDEX idx_fact_records_date_line ON fact_production_records(record_date, line);
+
+-- ============================================================
+-- FACT FINANCE RECORDS INDEXES
+-- ============================================================
+CREATE INDEX idx_fact_finance_period ON fact_finance_records(period);
+CREATE INDEX idx_fact_finance_region ON fact_finance_records(region);
+CREATE INDEX idx_fact_finance_period_region ON fact_finance_records(period, region);
