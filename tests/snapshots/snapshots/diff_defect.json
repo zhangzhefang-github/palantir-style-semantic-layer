@@ -1,0 +1,15 @@
+{
+  "logical_change": {
+    "expression_changed": false,
+    "grain_changed": false,
+    "variables_changed": false
+  },
+  "mapping_change": {
+    "params_changed": false,
+    "sql_changed": false
+  },
+  "metric": "DefectRate",
+  "risk": "L1",
+  "version_a": "DefectRate_v1",
+  "version_b": "DefectRate_v1"
+}

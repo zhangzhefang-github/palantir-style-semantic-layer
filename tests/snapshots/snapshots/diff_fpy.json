@@ -1,0 +1,15 @@
+{
+  "logical_change": {
+    "expression_changed": true,
+    "grain_changed": false,
+    "variables_changed": true
+  },
+  "mapping_change": {
+    "params_changed": false,
+    "sql_changed": true
+  },
+  "metric": "FPY",
+  "risk": "L3",
+  "version_a": "FPY_v1_standard",
+  "version_b": "FPY_v2_rework"
+}

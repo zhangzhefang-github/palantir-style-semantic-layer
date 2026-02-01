@@ -1,0 +1,52 @@
+{
+  "actions": [
+    "Business owner approval required",
+    "Prepare rollback plan",
+    "Run shadow queries for validation"
+  ],
+  "diff": {
+    "logical_change": {
+      "expression_changed": true,
+      "grain_changed": false,
+      "variables_changed": true
+    },
+    "mapping_change": {
+      "params_changed": false,
+      "sql_changed": true
+    },
+    "metric": "FPY",
+    "risk": "L3",
+    "version_a": "FPY_v1_standard",
+    "version_b": "FPY_v2_rework"
+  },
+  "evidence": {
+    "audit_query": "SELECT audit_id, question, version_name, status, executed_at FROM execution_audit WHERE semantic_object_name = :metric_name ORDER BY executed_at DESC LIMIT 10;",
+    "params": {
+      "metric_name": "FPY",
+      "version_a_id": 1,
+      "version_b_id": 2
+    }
+  },
+  "impact": {
+    "impacted_attributes": [],
+    "impacted_dimensions": [],
+    "impacted_entities": [],
+    "impacted_mappings": [],
+    "impacted_metrics": [
+      1,
+      4
+    ],
+    "target": {
+      "id": 1,
+      "type": "metric"
+    }
+  },
+  "summary": {
+    "metric": "FPY",
+    "risk": "L3",
+    "version_a": "FPY_v1_standard",
+    "version_a_id": 1,
+    "version_b": "FPY_v2_rework",
+    "version_b_id": 2
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "impacted_attributes": [],
+  "impacted_dimensions": [],
+  "impacted_entities": [],
+  "impacted_mappings": [],
+  "impacted_metrics": [
+    4
+  ],
+  "target": {
+    "id": 4,
+    "type": "metric"
+  }
+}

@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.coverage
+*.pyc
+*.pyo
+*.pyd
+data/
+full_logs.txt
