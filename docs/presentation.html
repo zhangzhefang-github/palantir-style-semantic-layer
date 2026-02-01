@@ -347,6 +347,58 @@
         .quick-start-commands { font-family: 'Fira Code', 'Consolas', monospace; font-size: 1em; }
         .cmd-line { padding: 8px 0; display: block; white-space: nowrap; }
         .cmd-prompt { color: #7ee787; margin-right: 10px; }
+        
+        /* === Slide 3: 跨域场景样式 === */
+        .boss-followup { display: flex; align-items: flex-start; gap: 20px; background: rgba(233,69,96,0.1); border: 2px solid rgba(233,69,96,0.3); border-radius: 15px; padding: 25px; margin: 20px 0; }
+        .boss-avatar { font-size: 3em; }
+        .boss-speech { font-size: 1.4em; line-height: 1.8; }
+        .domain-cards { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 20px 0; flex-wrap: wrap; }
+        .domain-card { background: rgba(0,212,255,0.1); border: 2px solid rgba(0,212,255,0.3); border-radius: 12px; padding: 20px; text-align: center; min-width: 140px; }
+        .domain-icon { font-size: 2em; margin-bottom: 10px; }
+        .domain-name { font-weight: bold; color: #00d4ff; font-size: 1.2em; }
+        .domain-tables { color: rgba(255,255,255,0.6); font-size: 0.9em; margin-top: 8px; }
+        .domain-link { font-size: 1.5em; color: rgba(255,255,255,0.4); }
+        .comparison-box { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 30px; }
+        .comparison-item { padding: 25px; border-radius: 15px; }
+        .comparison-item.bad { background: rgba(233,69,96,0.1); border: 2px solid rgba(233,69,96,0.3); }
+        .comparison-item.good { background: rgba(0,255,136,0.1); border: 2px solid rgba(0,255,136,0.3); }
+        .comparison-title { font-size: 1.4em; font-weight: bold; margin-bottom: 15px; }
+        .comparison-desc { font-size: 1.1em; line-height: 1.8; }
+        
+        /* === Slide 5: 三类约束样式 === */
+        .constraint-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin: 30px 0; }
+        .constraint-card { background: rgba(0,0,0,0.3); border-radius: 15px; padding: 25px; text-align: center; border: 1px solid rgba(255,255,255,0.1); }
+        .constraint-icon { font-size: 2.5em; margin-bottom: 15px; }
+        .constraint-title { font-size: 1.3em; font-weight: bold; color: #00d4ff; margin-bottom: 10px; }
+        .constraint-desc { color: rgba(255,255,255,0.8); margin-bottom: 15px; }
+        .constraint-example { background: rgba(0,212,255,0.1); padding: 10px; border-radius: 8px; font-family: 'Fira Code', monospace; font-size: 0.9em; }
+        .constraint-example code { background: rgba(0,0,0,0.3); padding: 3px 8px; border-radius: 4px; margin: 0 3px; }
+        .relationship-graph { background: rgba(0,0,0,0.3); border-radius: 15px; padding: 25px; display: inline-block; }
+        .rel-row { padding: 8px 0; font-family: 'Fira Code', monospace; font-size: 1.1em; }
+        .rel-node { background: rgba(0,212,255,0.2); padding: 5px 12px; border-radius: 6px; color: #00d4ff; }
+        .rel-edge { color: rgba(255,255,255,0.5); margin: 0 10px; }
+        .rel-edge.warning { color: #e94560; }
+        
+        /* === Slide 10: Fail-Closed 样式 === */
+        .fail-closed-demo { max-width: 800px; margin: 0 auto; }
+        .fc-question { background: rgba(0,212,255,0.1); border: 2px solid rgba(0,212,255,0.3); border-radius: 15px; padding: 20px; margin-bottom: 15px; }
+        .fc-label { font-size: 1em; color: rgba(255,255,255,0.6); margin-bottom: 10px; }
+        .fc-content { font-size: 1.3em; }
+        .fc-arrow { text-align: center; font-size: 1.2em; color: rgba(255,255,255,0.5); padding: 10px 0; }
+        .fc-response { background: rgba(0,0,0,0.3); border-radius: 15px; padding: 25px; }
+        .fc-result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 15px 0; }
+        .fc-result { padding: 20px; border-radius: 12px; }
+        .fc-result.allow { background: rgba(0,255,136,0.1); border: 2px solid rgba(0,255,136,0.3); }
+        .fc-result.deny { background: rgba(233,69,96,0.1); border: 2px solid rgba(233,69,96,0.3); }
+        .fc-result-title { font-weight: bold; font-size: 1.2em; margin-bottom: 10px; }
+        .fc-result-content { font-size: 1.1em; line-height: 1.6; }
+        .fc-reason { background: rgba(233,69,96,0.1); padding: 15px; border-radius: 8px; margin-top: 15px; font-size: 1.1em; }
+        .fc-reason code { background: rgba(0,0,0,0.3); padding: 3px 8px; border-radius: 4px; }
+        
+        /* === 价值表样式 === */
+        .value-table table { font-size: 1em; }
+        .value-table td, .value-table th { padding: 12px 15px; }
+        .value-table code { background: rgba(0,212,255,0.2); padding: 2px 6px; border-radius: 4px; font-size: 0.85em; }
     </style>
 </head>
 <body>
@@ -396,8 +448,60 @@
         </blockquote>
     </div>
     
-    <!-- Slide 3: Solution -->
+    <!-- Slide 3: Cross-Domain Challenge (老板追问) -->
     <div class="slide" id="slide3">
+        <h2>🔥 老板追问：为什么 Ontology 是必需的？</h2>
+        
+        <div class="boss-followup">
+            <div class="boss-avatar">👔</div>
+            <div class="boss-speech">
+                "毛利率下降了，是因为<span class="warning">成本上升</span>还是<span class="warning">折扣加大</span>？<br>
+                哪个商品？哪个渠道？广告投放有没有关系？"
+            </div>
+        </div>
+        
+        <h3 style="margin-top: 30px;">这个问题必须跨 4 个业务域：</h3>
+        
+        <div class="domain-cards">
+            <div class="domain-card">
+                <div class="domain-icon">🛒</div>
+                <div class="domain-name">交易域</div>
+                <div class="domain-tables">订单 / 支付</div>
+            </div>
+            <div class="domain-link">←→</div>
+            <div class="domain-card">
+                <div class="domain-icon">💵</div>
+                <div class="domain-name">成本域</div>
+                <div class="domain-tables">采购 / 仓配 / 履约</div>
+            </div>
+            <div class="domain-link">←→</div>
+            <div class="domain-card">
+                <div class="domain-icon">📣</div>
+                <div class="domain-name">营销域</div>
+                <div class="domain-tables">活动 / 优惠券 / 广告</div>
+            </div>
+            <div class="domain-link">←→</div>
+            <div class="domain-card">
+                <div class="domain-icon">📦</div>
+                <div class="domain-name">商品域</div>
+                <div class="domain-tables">SPU / SKU / 类目</div>
+            </div>
+        </div>
+        
+        <div class="comparison-box">
+            <div class="comparison-item bad">
+                <div class="comparison-title">❌ 没有 Ontology</div>
+                <div class="comparison-desc">NL2SQL 瞎猜 JOIN 条件<br>用户自己写 SQL 或找工程师<br>容易"乱联、乱说"</div>
+            </div>
+            <div class="comparison-item good">
+                <div class="comparison-title">✅ 有 Ontology</div>
+                <div class="comparison-desc">系统知道哪些域能连<br>怎么连（Join Key）<br>能不能做因果推断</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 4: Solution -->
+    <div class="slide" id="slide4">
         <h2>💡 解决方案</h2>
         <h3>6 张表回答 6 个问题</h3>
         
@@ -458,8 +562,63 @@
         </table>
     </div>
     
-    <!-- Slide 4: Architecture -->
-    <div class="slide" id="slide4">
+    <!-- Slide 5: Ontology = 三类约束 -->
+    <div class="slide" id="slide5">
+        <h2>🧬 Ontology = 三类约束系统</h2>
+        <h3 style="color: rgba(255,255,255,0.7);">不是为了更智能，是为了<span class="warning">不犯错</span></h3>
+        
+        <div class="constraint-cards">
+            <div class="constraint-card">
+                <div class="constraint-icon">🔗</div>
+                <div class="constraint-title">可 Join 约束</div>
+                <div class="constraint-desc">哪些域能通过哪些 Key 关联</div>
+                <div class="constraint-example">
+                    <code>user_id</code> <code>order_id</code> <code>sku_id</code>
+                </div>
+            </div>
+            <div class="constraint-card">
+                <div class="constraint-icon">📏</div>
+                <div class="constraint-title">可比较约束</div>
+                <div class="constraint-desc">粒度/时间窗口是否一致</div>
+                <div class="constraint-example">
+                    day vs week | 按单 vs 按人
+                </div>
+            </div>
+            <div class="constraint-card">
+                <div class="constraint-icon">⚖️</div>
+                <div class="constraint-title">可解释约束</div>
+                <div class="constraint-desc">允许得出什么结论</div>
+                <div class="constraint-example">
+                    相关 ✅ | 归因 ⚠️ | 因果 ❌
+                </div>
+            </div>
+        </div>
+        
+        <h3 style="margin-top: 30px;">最小关系图（6 条核心边）</h3>
+        <div class="relationship-graph">
+            <div class="rel-row">
+                <span class="rel-node">Activity</span> <span class="rel-edge">→ attribution_rule →</span> <span class="rel-node">Order</span>
+            </div>
+            <div class="rel-row">
+                <span class="rel-node">AdClick</span> <span class="rel-edge warning">→ weak_link →</span> <span class="rel-node">User</span>
+            </div>
+            <div class="rel-row">
+                <span class="rel-node">User</span> <span class="rel-edge">→ conversion_link →</span> <span class="rel-node">Order</span>
+            </div>
+            <div class="rel-row">
+                <span class="rel-node">Order</span> <span class="rel-edge">→ line_item →</span> <span class="rel-node">SKU</span>
+            </div>
+            <div class="rel-row">
+                <span class="rel-node">SKU</span> <span class="rel-edge">→ taxonomy →</span> <span class="rel-node">Category</span>
+            </div>
+            <div class="rel-row">
+                <span class="rel-node">Order</span> <span class="rel-edge">→ fulfillment_cost →</span> <span class="rel-node">Cost</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 6: Architecture -->
+    <div class="slide" id="slide6">
         <h2>🏗️ 核心架构</h2>
         
         <div class="arch-diagram">
@@ -517,8 +676,8 @@
         </div>
     </div>
     
-    <!-- Slide 5: Execution Flow -->
-    <div class="slide" id="slide5">
+    <!-- Slide 7: Execution Flow -->
+    <div class="slide" id="slide7">
         <h2>⚙️ 执行流程（7 个阶段）</h2>
         
         <div class="flow-diagram">
@@ -553,8 +712,8 @@
         </div>
     </div>
     
-    <!-- Slide 6: Demo Result -->
-    <div class="slide" id="slide6">
+    <!-- Slide 8: Demo Result -->
+    <div class="slide" id="slide8">
         <h2>🎬 演示结果</h2>
         
         <div class="demo-result-container">
@@ -605,32 +764,102 @@ parameters = {
         </div>
     </div>
     
-    <!-- Slide 7: Enterprise Value -->
-    <div class="slide" id="slide7">
-        <h2>💰 企业价值</h2>
+    <!-- Slide 9: Enterprise Value (结构性收益) -->
+    <div class="slide" id="slide9">
+        <h2>💰 结构性收益（可验证）</h2>
         
-        <div class="grid">
-            <div class="card stat-box">
-                <div class="stat-number">98%↓</div>
-                <div class="stat-label">口径变更定位时间<br>4小时 → 5分钟</div>
-            </div>
-            <div class="card stat-box">
-                <div class="stat-number">87%↓</div>
-                <div class="stat-label">口径事故率<br>15% → 2%</div>
-            </div>
-            <div class="card stat-box">
-                <div class="stat-number">83%↓</div>
-                <div class="stat-label">跨部门对齐会议<br>每周3次 → 0.5次</div>
-            </div>
-            <div class="card stat-box">
-                <div class="stat-number">86%↓</div>
-                <div class="stat-label">新指标上线周期<br>14天 → 2天</div>
-            </div>
+        <div class="value-table">
+            <table>
+                <tr>
+                    <th>痛点</th>
+                    <th>传统方式</th>
+                    <th>语义控制面</th>
+                    <th>证据</th>
+                </tr>
+                <tr>
+                    <td><strong>口径冲突</strong></td>
+                    <td class="warning">开会扯皮 3 小时</td>
+                    <td class="success">系统返回 + audit 链路</td>
+                    <td><code>execution_audit</code></td>
+                </tr>
+                <tr>
+                    <td><strong>版本选错</strong></td>
+                    <td class="warning">人脑记忆、口口相传</td>
+                    <td class="success">scenario 自动匹配</td>
+                    <td><code>semantic_version</code></td>
+                </tr>
+                <tr>
+                    <td><strong>争议复盘</strong></td>
+                    <td class="warning">"我当时用的是哪个口径？"</td>
+                    <td class="success">audit_id 完整可追溯</td>
+                    <td><code>decision_trace</code></td>
+                </tr>
+                <tr>
+                    <td><strong>新指标上线</strong></td>
+                    <td class="warning">改 ETL → 改报表 → 测试</td>
+                    <td class="success">新增一条 logical_definition</td>
+                    <td><code>INSERT INTO</code></td>
+                </tr>
+                <tr>
+                    <td><strong>数仓迁移</strong></td>
+                    <td class="warning">全链路改 SQL</td>
+                    <td class="success">只改 physical_mapping</td>
+                    <td>逻辑/物理分离</td>
+                </tr>
+            </table>
         </div>
+        
+        <blockquote style="margin-top: 30px;">
+            💡 不承诺 ROI 数字，只展示<span class="highlight">结构性改变</span>——这些收益<span class="success">可复现、可验证</span>
+        </blockquote>
     </div>
     
-    <!-- Slide 8: Enterprise FAQ -->
-    <div class="slide" id="slide8">
+    <!-- Slide 10: Fail-Closed Demo -->
+    <div class="slide" id="slide10">
+        <h2>🛡️ Fail-Closed：系统会"拒绝回答"</h2>
+        <h3 style="color: rgba(255,255,255,0.7);">企业最怕的不是"不知道"，是"乱说"</h3>
+        
+        <div class="fail-closed-demo">
+            <div class="fc-question">
+                <div class="fc-label">👤 用户提问</div>
+                <div class="fc-content">"广告点击率很高，为什么订单没涨？给我结论。"</div>
+            </div>
+            
+            <div class="fc-arrow">↓ 系统检查 Ontology 约束 ↓</div>
+            
+            <div class="fc-response">
+                <div class="fc-label">🤖 系统返回</div>
+                <div class="fc-result-grid">
+                    <div class="fc-result allow">
+                        <div class="fc-result-title">✅ 允许</div>
+                        <div class="fc-result-content">
+                            <strong>对照分析</strong><br>
+                            点击率: 5.2% ↑<br>
+                            订单数: 1,234 →
+                        </div>
+                    </div>
+                    <div class="fc-result deny">
+                        <div class="fc-result-title">🚫 拒绝</div>
+                        <div class="fc-result-content">
+                            <strong>因果结论</strong><br>
+                            <span class="warning">"广告无效"</span><br>
+                            <span class="warning">"投放失败"</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="fc-reason">
+                    <strong>拒绝原因：</strong><code>AdClick → Order</code> 是 <span class="warning">weak_link</span>，未满足归因规则
+                </div>
+            </div>
+        </div>
+        
+        <blockquote style="margin-top: 20px;">
+            🎯 Ontology 的核心价值：<span class="highlight">约束系统别乱联、别乱说</span>
+        </blockquote>
+    </div>
+    
+    <!-- Slide 11: Enterprise FAQ -->
+    <div class="slide" id="slide11">
         <h2>❓ 企业质疑对照</h2>
         
         <table>
@@ -667,8 +896,8 @@ parameters = {
         </table>
     </div>
     
-    <!-- Slide 9: Test Results -->
-    <div class="slide" id="slide9">
+    <!-- Slide 12: Test Results -->
+    <div class="slide" id="slide12">
         <h2>✅ 验证结果</h2>
         
         <div class="grid">
@@ -699,8 +928,8 @@ $ pytest tests/ -v
         </div>
     </div>
     
-    <!-- Slide 10: Summary -->
-    <div class="slide" id="slide10">
+    <!-- Slide 13: Summary -->
+    <div class="slide" id="slide13">
         <h2>🎯 总结</h2>
         
         <blockquote>
@@ -733,8 +962,8 @@ $ pytest tests/ -v
         </div>
     </div>
     
-    <!-- Slide 11: Thank You -->
-    <div class="slide title-slide" id="slide11">
+    <!-- Slide 14: Thank You -->
+    <div class="slide title-slide" id="slide14">
         <h1>🎉 感谢聆听</h1>
         <p style="font-size: 2em; margin-bottom: 40px;">Q&A</p>
         
@@ -757,7 +986,7 @@ $ pytest tests/ -v
     
     <script>
         let currentSlide = 1;
-        const totalSlides = 11;
+        const totalSlides = 14;
         
         function showSlide(n) {
             if (n < 1) n = totalSlides;
