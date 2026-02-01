@@ -184,10 +184,38 @@ class TestErrorScenarios:
         assert 'status' in result
 
     def test_non_existent_semantic_version(self, test_db_path):
-        """Test query for semantic object with no active version."""
-        # This would require modifying seed data to deactivate all versions
-        # For now, we'll skip this test
-        pytest.skip("Requires test database setup with inactive versions")
+        """Test query for semantic object with no versions at all."""
+        import sqlite3
+        
+        # Delete all versions and related data for FPY in the test database
+        conn = sqlite3.connect(test_db_path)
+        cursor = conn.cursor()
+        # Delete physical mappings first (foreign key)
+        cursor.execute("DELETE FROM physical_mapping WHERE logical_definition_id IN (SELECT id FROM logical_definition WHERE semantic_version_id IN (SELECT id FROM semantic_version WHERE semantic_object_id = 1))")
+        # Delete logical definitions (foreign key)
+        cursor.execute("DELETE FROM logical_definition WHERE semantic_version_id IN (SELECT id FROM semantic_version WHERE semantic_object_id = 1)")
+        # Delete all versions for FPY
+        cursor.execute("DELETE FROM semantic_version WHERE semantic_object_id = 1")
+        conn.commit()
+        conn.close()
+        
+        orchestrator = SemanticOrchestrator(test_db_path)
+        context = ExecutionContext(
+            user_id=1,
+            role='operator',
+            parameters={},
+            timestamp=datetime.now()
+        )
+        
+        # Should raise error or return error status when no versions exist
+        result = orchestrator.query(
+            question="昨天产线A的一次合格率是多少？",
+            parameters={'line': 'A', 'start_date': '2026-01-27', 'end_date': '2026-01-27'},
+            context=context
+        )
+        
+        # Either returns error status or raises exception
+        assert result.get('status') in ['error', False] or 'error' in str(result).lower()
 
     def test_database_connection_failure(self, test_db_path):
         """Test behavior when database is unavailable."""

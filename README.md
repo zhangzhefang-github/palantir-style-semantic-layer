@@ -5,7 +5,7 @@
 [![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
 [![SQLite](https://img.shields.io/badge/SQLite-3-003B57?style=flat-square&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
 [![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
-[![Tests](https://img.shields.io/badge/Tests-157%20passed-success?style=flat-square)](tests/)
+[![Tests](https://img.shields.io/badge/Tests-158%20passed-success?style=flat-square)](tests/)
 
 **A Reference Architecture POC for Semantic Layer as a Runtime Control Plane**
 
@@ -395,7 +395,7 @@ VALUES
 | Full audit | ✅ Every step traceable |
 | Replay-safe | ✅ Same SQL, explainable differences |
 | Migration-proof | ✅ Physical changes isolated |
-| Test-covered | ✅ 157 tests passed, 1 skipped |
+| Test-covered | ✅ 158 tests passed, 0 skipped |
 | Conflict-proof | ✅ Priority-based deterministic resolution |
 
 ---

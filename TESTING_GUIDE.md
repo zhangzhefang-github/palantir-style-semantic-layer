@@ -71,7 +71,7 @@ rm -rf data/
 # 运行完整测试套件
 python3 -m pytest tests/ -v
 
-# 预期输出：157 passed, 1 skipped
+# 预期输出：158 passed
 ```
 
 ---
@@ -268,7 +268,7 @@ python3 -m pytest tests/ --co -q
 - ✅ test_ontology_constraints.py：8/8 测试通过（三类约束）
 - ✅ test_fail_closed.py：10/10 测试通过（Fail-Closed）
 - ✅ 覆盖率：orchestrator.py 100%
-- ✅ 总计：157 passed, 1 skipped
+- ✅ 总计：158 passed, 0 skipped
 
 ---
 
