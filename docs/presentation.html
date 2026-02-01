@@ -450,7 +450,12 @@
     
     <!-- Slide 3: Cross-Domain Challenge (老板追问) -->
     <div class="slide" id="slide3">
-        <h2>🔥 老板追问：什么时候必须上本体（Ontology）？</h2>
+        <h2>🔥 口径问题解决了，归因问题来了</h2>
+        
+        <p style="color: rgba(255,255,255,0.7); font-size: 1.1em; margin-bottom: 20px;">
+            上一页解决了"用哪个版本"，但老板不会停在这——他要追问<span class="warning">为什么</span>。<br>
+            这就需要跨域连接 + 归因约束，单靠版本管理解决不了。
+        </p>
         
         <div class="boss-followup">
             <div class="boss-avatar">👔</div>
@@ -502,8 +507,11 @@
     
     <!-- Slide 4: Solution -->
     <div class="slide" id="slide4">
-        <h2>💡 解决方案</h2>
-        <h3>6 张表回答 6 个问题</h3>
+        <h2>💡 6 张核心表 = 运行时执行闭环（MVP）</h2>
+        <p style="color: rgba(255,255,255,0.7); font-size: 1em; margin-bottom: 15px;">
+            要回答老板的"为什么"，系统必须先做到：指标口径可版本化 + 每步可追溯。<br>
+            6 张表先把<span class="highlight">"可执行 + 可审计"</span>做成闭环。
+        </p>
         
         <table class="table-bilingual">
             <tr>
@@ -560,11 +568,17 @@
                 <td>15 步决策链完整记录</td>
             </tr>
         </table>
+        <p style="color: rgba(255,255,255,0.5); font-size: 0.9em; margin-top: 15px; text-align: center;">
+            📌 6 张是最小执行闭环；企业落地可再加 <strong>7 张本体/治理扩展表</strong>（后文展开）
+        </p>
     </div>
     
     <!-- Slide 5: 本体 = 三类约束 -->
     <div class="slide" id="slide5">
         <h2>🧬 本体（Ontology）= 三类约束系统</h2>
+        <p style="color: rgba(255,255,255,0.7); font-size: 1em; margin-bottom: 10px;">
+            6 张表解决<span class="highlight">"怎么算/查哪/谁能查/可追溯"</span>，本体解决<span class="highlight">"能不能连、能不能比、能不能下结论"</span>——两者是<strong>叠加关系</strong>。
+        </p>
         <h3 style="color: rgba(255,255,255,0.7);">不是为了更智能，是为了<span class="warning">不犯错</span></h3>
         
         <div class="constraint-cards">
@@ -636,7 +650,7 @@
             
             <!-- 中间：语义控制面 -->
             <div class="arch-box control-plane">
-                <div class="arch-title" style="color: #00d4ff; margin-bottom: 20px;">语义控制面（13 张业务表）</div>
+                <div class="arch-title" style="color: #00d4ff; margin-bottom: 20px;">语义控制面（13 张表：6 张执行闭环 + 7 张本体/治理扩展）</div>
                 
                 <div class="table-groups">
                     <div class="table-group">
@@ -681,7 +695,10 @@
     
     <!-- Slide 7: Execution Flow -->
     <div class="slide" id="slide7">
-        <h2>⚙️ 执行流程（7 个阶段）</h2>
+        <h2>⚙️ 约束不是文档，是执行时逐步校验</h2>
+        <p style="color: rgba(255,255,255,0.7); font-size: 1em; margin-bottom: 15px;">
+            解析 → 选版本 → 构 SQL → <span class="highlight">校验 Join/粒度/结论类型</span> → 权限 → 执行 → 审计
+        </p>
         
         <div class="flow-diagram">
             <div class="flow-step active">
@@ -697,11 +714,11 @@
                 (revenue - total_cost) / revenue
             </div>
             <div class="flow-step active">
-                <strong>4️⃣ 物理映射</strong><br>
+                <strong>4️⃣ 物理映射</strong> <span style="color: #00d4ff; font-size: 0.9em;">（校验 Join Key & 粒度）</span><br>
                 SELECT (SUM(revenue)-SUM(cost))/SUM(revenue) FROM finance_fact ...
             </div>
             <div class="flow-step active">
-                <strong>5️⃣ 权限检查</strong><br>
+                <strong>5️⃣ 权限 + 结论级别检查</strong> <span style="color: #00d4ff; font-size: 0.9em;">（相关/归因/因果）</span><br>
                 role=finance_manager, action=query → ALLOW ✅
             </div>
             <div class="flow-step active">
@@ -773,6 +790,9 @@ parameters = {
     <!-- Slide 9: Enterprise Value (结构性收益) -->
     <div class="slide" id="slide9">
         <h2>💰 结构性收益（可验证）</h2>
+        <p style="color: rgba(255,255,255,0.7); font-size: 1em; margin-bottom: 15px;">
+            上一个 demo 的关键不是 <span class="highlight">23.5%</span>，而是<span class="success">每一步可审计、每个变更可隔离</span>——因此收益是结构性的、可复现的。
+        </p>
         
         <div class="value-table">
             <table>
@@ -822,8 +842,10 @@ parameters = {
     
     <!-- Slide 10: Fail-Closed Demo -->
     <div class="slide" id="slide10">
-        <h2>🛡️ Fail-Closed：系统会"拒绝回答"</h2>
-        <h3 style="color: rgba(255,255,255,0.7);">企业最怕的不是"不知道"，是"乱说"</h3>
+        <h2>🛡️ Fail-Closed：宁可拒答，也不乱说</h2>
+        <p style="color: rgba(255,255,255,0.7); font-size: 1em; margin-bottom: 10px;">
+            Fail-Closed 不是功能，是<span class="warning">企业上生产的准入条件</span>——没有这层保护，前面所有能力都不敢用。
+        </p>
         
         <div class="fail-closed-demo">
             <div class="fc-question">
@@ -872,32 +894,32 @@ parameters = {
             <tr>
                 <th>质疑</th>
                 <th>回答</th>
-                <th>证据</th>
+                <th>可验收证据</th>
             </tr>
             <tr>
                 <td>版本会选错吗？</td>
                 <td>不会，有明确优先级规则</td>
-                <td class="success">✅ test_priority 通过</td>
+                <td class="success"><code>tests/test_enterprise_challenges.py</code></td>
             </tr>
             <tr>
                 <td>流程变了要改代码吗？</td>
                 <td>不用，只需添加数据库记录</td>
-                <td class="success">✅ Scenario 驱动</td>
+                <td class="success"><code>tests/test_gross_margin_scenario.py</code></td>
             </tr>
             <tr>
                 <td>数仓迁移会崩吗？</td>
                 <td>不会，逻辑物理分离</td>
-                <td class="success">✅ physical_mapping 隔离</td>
+                <td class="success"><code>tests/e2e/test_change_impact_flow.py</code></td>
             </tr>
             <tr>
                 <td>怎么证明数对？</td>
                 <td>15 步决策链完整可追溯</td>
-                <td class="success">✅ execution_audit</td>
+                <td class="success"><code>execution_audit</code> 含 audit_id</td>
             </tr>
             <tr>
                 <td>部分参数会意外匹配吗？</td>
                 <td>不会，必须全量匹配</td>
-                <td class="success">✅ test_partial_match 通过</td>
+                <td class="success"><code>test_partial_scenario_match_fails</code></td>
             </tr>
         </table>
     </div>
