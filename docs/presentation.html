@@ -453,7 +453,7 @@
         <h2>🔥 口径问题解决了，归因问题来了</h2>
         
         <p style="color: rgba(255,255,255,0.7); font-size: 1.1em; margin-bottom: 20px;">
-            上一页解决了"用哪个版本"，但老板不会停在这——他要追问<span class="warning">为什么</span>。<br>
+            即使我们先把"用哪个版本"定下来，老板也不会停在这——他要追问<span class="warning">为什么</span>。<br>
             这就需要跨域连接 + 归因约束，单靠版本管理解决不了。
         </p>
         
@@ -509,8 +509,8 @@
     <div class="slide" id="slide4">
         <h2>💡 6 张核心表 = 运行时执行闭环（MVP）</h2>
         <p style="color: rgba(255,255,255,0.7); font-size: 1em; margin-bottom: 15px;">
-            要回答老板的"为什么"，系统必须先做到：指标口径可版本化 + 每步可追溯。<br>
-            6 张表先把<span class="highlight">"可执行 + 可审计"</span>做成闭环。
+            要回答老板的"为什么"，系统必须先把<span class="highlight">"口径可版本化 + 每步可追溯"</span>打底。<br>
+            6 张表先把"可执行 + 可审计"做成闭环——归因能力后面加。
         </p>
         
         <table class="table-bilingual">
@@ -667,6 +667,9 @@
                     
                     <div class="table-group">
                         <div class="group-title">🔶 本体 & 治理表 (7张)</div>
+                        <p style="color: rgba(255,255,255,0.5); font-size: 0.8em; margin: 5px 0 10px 0;">
+                            三类能力：实体/属性建模 + 指标可解释依赖 + 关系约束
+                        </p>
                         <div class="table-tags-bilingual">
                             <span class="tag-bi secondary"><span class="cn">本体实体</span><span class="en">ontology_entity</span></span>
                             <span class="tag-bi secondary"><span class="cn">本体维度</span><span class="en">ontology_dimension</span></span>
@@ -718,7 +721,7 @@
                 SELECT (SUM(revenue)-SUM(cost))/SUM(revenue) FROM finance_fact ...
             </div>
             <div class="flow-step active">
-                <strong>5️⃣ 权限 + 结论级别检查</strong> <span style="color: #00d4ff; font-size: 0.9em;">（相关/归因/因果）</span><br>
+                <strong>5️⃣ 策略检查</strong> <span style="color: #00d4ff; font-size: 0.9em;">（权限 + 结论级别：相关/归因/因果）</span><br>
                 role=finance_manager, action=query → ALLOW ✅
             </div>
             <div class="flow-step active">
@@ -823,8 +826,8 @@ parameters = {
                 <tr>
                     <td><strong>新指标上线</strong></td>
                     <td class="warning">改 ETL → 改报表 → 测试</td>
-                    <td class="success">新增一条 logical_definition</td>
-                    <td><code>INSERT INTO</code></td>
+                    <td class="success">新增 1-3 条元数据，不改 ETL</td>
+                    <td><code>object/version/logic</code></td>
                 </tr>
                 <tr>
                     <td><strong>数仓迁移</strong></td>
@@ -894,32 +897,32 @@ parameters = {
             <tr>
                 <th>质疑</th>
                 <th>回答</th>
-                <th>可验收证据</th>
+                <th>可验收证据（repo 可查）</th>
             </tr>
             <tr>
                 <td>版本会选错吗？</td>
                 <td>不会，有明确优先级规则</td>
-                <td class="success"><code>tests/test_enterprise_challenges.py</code></td>
+                <td class="success">✅ <code>test_enterprise_challenges.py</code></td>
             </tr>
             <tr>
                 <td>流程变了要改代码吗？</td>
                 <td>不用，只需添加数据库记录</td>
-                <td class="success"><code>tests/test_gross_margin_scenario.py</code></td>
+                <td class="success">✅ <code>test_gross_margin_scenario.py</code></td>
             </tr>
             <tr>
                 <td>数仓迁移会崩吗？</td>
                 <td>不会，逻辑物理分离</td>
-                <td class="success"><code>tests/e2e/test_change_impact_flow.py</code></td>
+                <td class="success">✅ <code>e2e/test_change_impact_flow.py</code></td>
             </tr>
             <tr>
                 <td>怎么证明数对？</td>
                 <td>15 步决策链完整可追溯</td>
-                <td class="success"><code>execution_audit</code> 含 audit_id</td>
+                <td class="success">✅ <code>execution_audit</code> + audit_id</td>
             </tr>
             <tr>
                 <td>部分参数会意外匹配吗？</td>
                 <td>不会，必须全量匹配</td>
-                <td class="success"><code>test_partial_scenario_match_fails</code></td>
+                <td class="success">✅ <code>test_partial_scenario_match_fails()</code></td>
             </tr>
         </table>
     </div>
@@ -927,7 +930,10 @@ parameters = {
     <!-- Slide 12: Test Results -->
     <div class="slide" id="slide12">
         <h2>✅ 验证结果</h2>
-        <p style="color: rgba(255,255,255,0.6); font-size: 1em; margin-bottom: 15px;">新增本体约束与 Fail-Closed 用例后：测试从 134 → 157</p>
+        <p style="color: rgba(255,255,255,0.6); font-size: 1em; margin-bottom: 15px;">
+            新增本体约束与 Fail-Closed 用例后：测试从 134 → 157<br>
+            <span style="font-size: 0.85em;">口径：pytest 全量（unit + integration + e2e），skip 为外部依赖环境用例</span>
+        </p>
         
         <div class="grid">
             <div class="card">
