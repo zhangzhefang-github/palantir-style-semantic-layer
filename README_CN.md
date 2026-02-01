@@ -24,6 +24,51 @@
 
 ---
 
+## 🔥 30 秒了解这个项目
+
+> **把企业语义变成运行时可校验能力：能选版本、能追溯、能拒答。**
+
+### 解决什么痛点？
+
+- 😤 **口径冲突**：财务说毛利率 23.5%，销售说 28.2%，老板问"到底是多少？" → 系统自动选版本 + 完整审计链
+- 🚫 **AI 乱说**：Agent 给出"广告无效"的因果结论 → Fail-Closed 机制拒绝回答弱关联推断
+- 🔄 **数仓迁移恐惧**：改一张表要改几十个报表 → 只改 `physical_mapping`，逻辑层零改动
+
+### 和"指标平台/语义层/Agent SQL 生成器"区别？
+
+| 工具类型 | 核心能力 | 本项目差异 |
+|---------|---------|----------|
+| 指标平台 | 定义 + 展示 | ✅ 本项目：**运行时版本选择 + 场景匹配** |
+| 语义层 | 逻辑/物理分离 | ✅ 本项目：**Fail-Closed + 归因约束** |
+| Agent SQL | 自然语言转 SQL | ✅ 本项目：**15 步决策链完全可审计** |
+
+### 适合谁？
+
+`数据平台负责人` · `BI/治理团队` · `AI 落地负责人` · `对 Palantir 架构感兴趣的工程师`
+
+### ⚡ 一键体验（3 分钟跑通）
+
+```bash
+git clone https://github.com/zhangzhefang-github/palantir-style-semantic-layer.git && cd palantir-style-semantic-layer && pip install -r requirements.txt && python3 demo_detailed_logs.py
+```
+
+<details>
+<summary>📸 点击查看示例输出</summary>
+
+```
+✅ 状态: SUCCESS
+✅ Semantic Object: FPY
+✅ Version: FPY_v2_rework
+✅ Logic: (good_qty + rework_qty) / total_qty
+✅ Data: [{'fpy': 0.9866666666666667}]
+✅ Audit ID: 20260201_074628_9378a39e
+✅ 决策链: 15 步完整记录
+```
+
+</details>
+
+---
+
 ## 📋 目录
 
 - [项目概述](#-项目概述)
