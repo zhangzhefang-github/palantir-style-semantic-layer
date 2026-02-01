@@ -183,6 +183,15 @@ python demo_queries.py
 
 ## 📖 Usage
 
+### Real-World Scenario: Cross-Department Metric Conflict
+
+**Problem**: CFO asks "What's the Gross Margin for East Region last month?"
+- Finance team calculates: `(Revenue - Total Cost) / Revenue = 23.5%`
+- Sales team calculates: `(Revenue - Direct Cost) / Revenue = 28.2%`
+- Boss: "Which one is correct? Why are there two numbers?"
+
+**Solution**: The semantic control plane automatically identifies which version to use based on scenario context.
+
 ### Basic Query
 
 ```python
@@ -193,25 +202,26 @@ from datetime import datetime
 # Initialize
 orchestrator = SemanticOrchestrator('data/semantic_layer.db')
 
-# Set up execution context
+# Set up execution context (Finance department)
 context = ExecutionContext(
     user_id=1,
-    role='operator',
+    role='finance_manager',
     timestamp=datetime.now()
 )
 
-# Execute query
+# Execute query with department context
 result = orchestrator.query(
-    question="What is the First Pass Yield for Line A yesterday?",
+    question="What is the Gross Margin for East Region last month?",
     parameters={
-        'line': 'A',
-        'start_date': '2026-01-27',
-        'end_date': '2026-01-27'
+        'region': 'East',
+        'period': '2026-01',
+        'scenario': {'department': 'finance'}  # Specifies which version to use
     },
     context=context
 )
 
-print(f"Result: {result['data']}")
+print(f"Result: {result['data']}")  # {'gross_margin': 0.235}
+print(f"Version: {result['version']}")  # GrossMargin_v1_finance
 print(f"Audit ID: {result['audit_id']}")
 ```
 
@@ -219,11 +229,11 @@ print(f"Audit ID: {result['audit_id']}")
 
 ```json
 {
-    "data": [{"fpy": 0.95}],
+    "data": [{"gross_margin": 0.235}],
     "decision_trace": [
-        {"step": "resolve_semantic_object_complete", "data": {"semantic_object_reason": "..."}},
-        {"step": "resolve_version_complete", "data": {"version_selection_reason": "..."}},
-        {"step": "resolve_logic_complete", "data": {"logic_expression": "good_qty / total_qty"}},
+        {"step": "resolve_semantic_object_complete", "data": {"semantic_object_reason": "Matched GrossMargin"}},
+        {"step": "resolve_version_complete", "data": {"version_selection_reason": "Selected finance version"}},
+        {"step": "resolve_logic_complete", "data": {"logic_expression": "(revenue - total_cost) / revenue"}},
         {"step": "resolve_physical_mapping_complete", "data": {"physical_mapping_reason": "..."}},
         {"step": "render_sql_complete", "data": {"sql_preview": "SELECT ..."}},
         {"step": "execution_complete", "data": {"row_count": 1}}
@@ -231,6 +241,8 @@ print(f"Audit ID: {result['audit_id']}")
     "audit_id": "20260128_163122_428e7cce"
 }
 ```
+
+**Key Point**: The system records exactly which version was used, why it was selected, and the complete calculation logic - enabling full auditability.
 
 ---
 

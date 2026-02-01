@@ -295,21 +295,46 @@
     <!-- Slide 2: Pain Points -->
     <div class="slide" id="slide2">
         <h2>😰 痛点与挑战</h2>
-        <h3>业务人员问："昨天产线A的一次合格率是多少？"</h3>
+        <h3>真实场景：财务总监问"上月华东区毛利率是多少？"</h3>
         
         <div class="architecture-box">
-            <div class="flow-diagram">
-                <div class="flow-step">"FPY 是什么？" → <span class="warning">问数据分析师</span></div>
-                <div class="flow-step">"用哪个版本？" → <span class="warning">问业务专家</span></div>
-                <div class="flow-step">"数据在哪？" → <span class="warning">问数仓工程师</span></div>
-                <div class="flow-step">"我能查吗？" → <span class="warning">问数据治理</span></div>
-                <div class="flow-step">"这个数对吗？" → <span class="warning">无法追溯</span></div>
+            <div class="conflict-scenario">
+                <div class="dept-box finance">
+                    <div class="dept-name">💰 财务部</div>
+                    <div class="dept-formula">(收入-成本)/收入</div>
+                    <div class="dept-result">= <span class="warning">23.5%</span></div>
+                </div>
+                <div class="vs-text">VS</div>
+                <div class="dept-box sales">
+                    <div class="dept-name">📈 销售部</div>
+                    <div class="dept-formula">(收入-直接成本)/收入</div>
+                    <div class="dept-result">= <span class="warning">28.2%</span></div>
+                </div>
             </div>
+            <div class="boss-question">
+                <span class="emoji">😠</span> 老板：<span class="warning">"到底是多少？谁对？为什么两个数？"</span>
+            </div>
+        </div>
+        
+        <div class="flow-diagram" style="margin-top: 20px;">
+            <div class="flow-step">传统方式：开会 3 小时 → <span class="warning">扯皮</span> → 最后还是不清楚</div>
         </div>
         
         <blockquote>
             核心问题：企业语义靠<span class="warning">"人脑协作"</span>，不是<span class="highlight">"系统能力"</span>
         </blockquote>
+        
+        <style>
+            .conflict-scenario { display: flex; align-items: center; justify-content: center; gap: 30px; margin: 20px 0; }
+            .dept-box { background: rgba(0,0,0,0.3); border-radius: 15px; padding: 25px 35px; text-align: center; min-width: 200px; }
+            .dept-box.finance { border: 2px solid #00d4ff; }
+            .dept-box.sales { border: 2px solid #e94560; }
+            .dept-name { font-size: 1.3em; font-weight: bold; margin-bottom: 10px; }
+            .dept-formula { font-family: 'Fira Code', monospace; color: rgba(255,255,255,0.8); font-size: 1.1em; }
+            .dept-result { font-size: 1.8em; font-weight: bold; margin-top: 10px; }
+            .vs-text { font-size: 2em; font-weight: bold; color: #e94560; }
+            .boss-question { text-align: center; font-size: 1.3em; margin-top: 20px; padding: 15px; background: rgba(233,69,96,0.1); border-radius: 10px; }
+        </style>
     </div>
     
     <!-- Slide 3: Solution -->
@@ -321,32 +346,32 @@
             <tr>
                 <th>表</th>
                 <th>回答的问题</th>
-                <th>示例</th>
+                <th>示例（毛利率场景）</th>
             </tr>
             <tr>
                 <td><code>semantic_object</code></td>
-                <td><strong>什么</strong>是 FPY？</td>
-                <td>First Pass Yield，一次合格率</td>
+                <td><strong>什么</strong>是毛利率？</td>
+                <td>Gross Margin，衡量盈利能力的核心指标</td>
             </tr>
             <tr>
                 <td><code>semantic_version</code></td>
                 <td><strong>哪个</strong>版本适用？</td>
-                <td>v1 标准版 / v2 含返工版</td>
+                <td>v1 财务口径 / v2 销售口径</td>
             </tr>
             <tr>
                 <td><code>logical_definition</code></td>
                 <td><strong>怎么</strong>计算？</td>
-                <td>good_qty / total_qty</td>
+                <td>(revenue - cost) / revenue</td>
             </tr>
             <tr>
                 <td><code>physical_mapping</code></td>
                 <td>数据在<strong>哪里</strong>？</td>
-                <td>SELECT ... FROM fact_table</td>
+                <td>SELECT ... FROM finance_fact</td>
             </tr>
             <tr>
                 <td><code>access_policy</code></td>
                 <td><strong>谁</strong>能查？</td>
-                <td>operator ✅, anonymous ❌</td>
+                <td>finance_manager ✅, intern ❌</td>
             </tr>
             <tr>
                 <td><code>execution_audit</code></td>
@@ -365,7 +390,7 @@
             <div class="arch-box user-box">
                 <div class="arch-icon">👤</div>
                 <div class="arch-title">用户 / AI Agent</div>
-                <div class="arch-desc">"昨天产线A的一次合格率是多少？"</div>
+                <div class="arch-desc">"上月华东区毛利率是多少？"</div>
             </div>
             
             <div class="arch-arrow">↓</div>
@@ -408,7 +433,7 @@
             <div class="arch-box result-box">
                 <div class="arch-icon">📊</div>
                 <div class="result-content">
-                    <div class="result-item"><span class="label">返回结果:</span> <span class="value">FPY = 0.963</span></div>
+                    <div class="result-item"><span class="label">返回结果:</span> <span class="value">毛利率 = 23.5%</span></div>
                     <div class="result-item"><span class="label">Audit ID:</span> <span class="value">20260201_xxxx</span></div>
                 </div>
             </div>
@@ -524,31 +549,31 @@
         <div class="flow-diagram">
             <div class="flow-step active">
                 <strong>1️⃣ 语义解析</strong><br>
-                "昨天产线A的一次合格率" → FPY
+                "上月华东区毛利率" → GrossMargin (毛利率)
             </div>
             <div class="flow-step active">
                 <strong>2️⃣ 版本选择</strong><br>
-                scenario={'rework_enabled':True} → FPY_v2_rework (score=2)
+                scenario={'department':'finance'} → GrossMargin_v1_finance (score=2)
             </div>
             <div class="flow-step active">
                 <strong>3️⃣ 逻辑解析</strong><br>
-                (good_qty + rework_qty) / total_qty
+                (revenue - total_cost) / revenue
             </div>
             <div class="flow-step active">
                 <strong>4️⃣ 物理映射</strong><br>
-                SELECT SUM(good_qty+rework_qty)/SUM(total_qty) FROM ...
+                SELECT (SUM(revenue)-SUM(cost))/SUM(revenue) FROM finance_fact ...
             </div>
             <div class="flow-step active">
                 <strong>5️⃣ 权限检查</strong><br>
-                role=operator, action=query → ALLOW ✅
+                role=finance_manager, action=query → ALLOW ✅
             </div>
             <div class="flow-step active">
                 <strong>6️⃣ SQL 执行</strong><br>
-                Result: {'fpy': 0.9867}
+                Result: {'gross_margin': 0.235}
             </div>
             <div class="flow-step active">
                 <strong>7️⃣ 审计记录</strong><br>
-                Audit ID: 20260201_074628_9378a39e (15 步决策链)
+                Audit ID: 20260201_143022_a8f3e2b1 (15 步决策链)
             </div>
         </div>
     </div>
@@ -561,13 +586,12 @@
             <div>
                 <h3>输入</h3>
                 <div class="code-block">
-问题: "昨天产线A的一次合格率是多少？"
+问题: "上月华东区毛利率是多少？"
 
 参数:
-  line: 'A'
-  start_date: '2026-01-27'
-  end_date: '2026-01-27'
-  scenario: {'rework_enabled': True}
+  region: '华东'
+  period: '2026-01'
+  scenario: {'department': 'finance'}
                 </div>
             </div>
             <div>
@@ -575,11 +599,11 @@
                 <div class="code-block">
 {
   "status": "<span class="success">success</span>",
-  "semantic_object": "FPY",
-  "version": "FPY_v2_rework",
-  "logic": "(good_qty + rework_qty) / total_qty",
-  "data": [{"fpy": <span class="highlight">0.9867</span>}],
-  "audit_id": "20260201_074628_9378a39e",
+  "semantic_object": "GrossMargin",
+  "version": "GrossMargin_v1_finance",
+  "logic": "(revenue - total_cost) / revenue",
+  "data": [{"gross_margin": <span class="highlight">0.235</span>}],
+  "audit_id": "20260201_143022_a8f3e2b1",
   "decision_trace": [/* 15 步 */]
 }
                 </div>
@@ -588,8 +612,9 @@
         
         <div class="architecture-box" style="margin-top: 30px;">
             <p style="font-size: 1.3em;">
-                <span class="emoji">📊</span> 计算过程：(950+30) + (980+15) + (960+25) = 2960 良品<br>
-                <span class="emoji">📊</span> FPY = 2960 / 3000 = <span class="highlight">0.9867</span>
+                <span class="emoji">💰</span> 财务口径：(收入 ¥5,000万 - 成本 ¥3,825万) / 收入 = <span class="highlight">23.5%</span><br>
+                <span class="emoji">📈</span> 销售口径：(收入 ¥5,000万 - 直接成本 ¥3,590万) / 收入 = <span class="warning">28.2%</span><br>
+                <span class="emoji">✅</span> 系统明确返回 <span class="highlight">财务口径 23.5%</span>，并记录完整决策链
             </p>
         </div>
     </div>

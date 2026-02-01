@@ -183,6 +183,15 @@ python demo_queries.py
 
 ## 📖 使用指南
 
+### 真实场景：跨部门口径冲突
+
+**问题**：财务总监问"上月华东区毛利率是多少？"
+- 财务部计算：`(收入 - 总成本) / 收入 = 23.5%`
+- 销售部计算：`(收入 - 直接成本) / 收入 = 28.2%`
+- 老板：**"到底是多少？为什么有两个数？"**
+
+**解决方案**：语义控制面根据场景上下文自动识别使用哪个版本。
+
 ### 基础查询
 
 ```python
@@ -193,25 +202,26 @@ from datetime import datetime
 # 初始化
 orchestrator = SemanticOrchestrator('data/semantic_layer.db')
 
-# 设置执行上下文
+# 设置执行上下文（财务部门）
 context = ExecutionContext(
     user_id=1,
-    role='operator',
+    role='finance_manager',
     timestamp=datetime.now()
 )
 
-# 执行查询
+# 执行带部门上下文的查询
 result = orchestrator.query(
-    question="昨天产线A的一次合格率是多少？",
+    question="上月华东区毛利率是多少？",
     parameters={
-        'line': 'A',
-        'start_date': '2026-01-27',
-        'end_date': '2026-01-27'
+        'region': '华东',
+        'period': '2026-01',
+        'scenario': {'department': 'finance'}  # 指定使用哪个版本
     },
     context=context
 )
 
-print(f"结果: {result['data']}")
+print(f"结果: {result['data']}")  # {'gross_margin': 0.235}
+print(f"版本: {result['version']}")  # GrossMargin_v1_finance
 print(f"审计ID: {result['audit_id']}")
 ```
 
@@ -219,11 +229,11 @@ print(f"审计ID: {result['audit_id']}")
 
 ```json
 {
-    "data": [{"fpy": 0.95}],
+    "data": [{"gross_margin": 0.235}],
     "decision_trace": [
-        {"step": "resolve_semantic_object_complete", "data": {"semantic_object_reason": "..."}},
-        {"step": "resolve_version_complete", "data": {"version_selection_reason": "..."}},
-        {"step": "resolve_logic_complete", "data": {"logic_expression": "good_qty / total_qty"}},
+        {"step": "resolve_semantic_object_complete", "data": {"semantic_object_reason": "匹配到毛利率"}},
+        {"step": "resolve_version_complete", "data": {"version_selection_reason": "选择财务口径版本"}},
+        {"step": "resolve_logic_complete", "data": {"logic_expression": "(revenue - total_cost) / revenue"}},
         {"step": "resolve_physical_mapping_complete", "data": {"physical_mapping_reason": "..."}},
         {"step": "render_sql_complete", "data": {"sql_preview": "SELECT ..."}},
         {"step": "execution_complete", "data": {"row_count": 1}}
@@ -231,6 +241,8 @@ print(f"审计ID: {result['audit_id']}")
     "audit_id": "20260128_163122_428e7cce"
 }
 ```
+
+**关键点**：系统准确记录了使用哪个版本、为什么选择它、以及完整的计算逻辑——实现完全可审计。
 
 ---
 
