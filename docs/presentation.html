@@ -280,6 +280,73 @@
             font-size: 1.5em;
             color: rgba(255,255,255,0.9);
         }
+        
+        /* === Slide 2: 跨部门冲突场景样式 === */
+        .conflict-scenario { display: flex; align-items: center; justify-content: center; gap: 30px; margin: 20px 0; }
+        .dept-box { background: rgba(0,0,0,0.3); border-radius: 15px; padding: 25px 35px; text-align: center; min-width: 200px; }
+        .dept-box.finance { border: 2px solid #00d4ff; }
+        .dept-box.sales { border: 2px solid #e94560; }
+        .dept-name { font-size: 1.3em; font-weight: bold; margin-bottom: 10px; }
+        .dept-formula { font-family: 'Fira Code', monospace; color: rgba(255,255,255,0.8); font-size: 1.1em; }
+        .dept-result { font-size: 1.8em; font-weight: bold; margin-top: 10px; }
+        .vs-text { font-size: 2em; font-weight: bold; color: #e94560; }
+        .boss-question { text-align: center; font-size: 1.3em; margin-top: 20px; padding: 15px; background: rgba(233,69,96,0.1); border-radius: 10px; }
+        
+        /* === Slide 3: 双语表名样式 === */
+        .table-bilingual td:first-child { text-align: center; }
+        .table-name-cn { color: #00d4ff; font-weight: bold; font-size: 1.1em; margin-bottom: 5px; }
+        .table-bilingual code { background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 4px; font-size: 0.9em; }
+        
+        /* === Slide 6: 演示结果样式 === */
+        .demo-result-container { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 20px 0; }
+        .demo-section h3 { color: #00d4ff; margin-bottom: 15px; font-size: 1.4em; }
+        .code-comment { color: #6a737d; font-style: italic; }
+        .code-string { color: #a5d6ff; }
+        .code-key { color: #7ee787; }
+        .result-summary { background: rgba(0,0,0,0.3); border-radius: 15px; padding: 25px; margin-top: 20px; }
+        .summary-item { display: flex; align-items: center; gap: 15px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 1.2em; }
+        .summary-item:last-of-type { border-bottom: none; }
+        .summary-icon { font-size: 1.5em; }
+        .summary-label { font-weight: bold; min-width: 100px; }
+        .summary-formula { color: rgba(255,255,255,0.7); font-family: 'Fira Code', monospace; flex: 1; }
+        .summary-result { font-weight: bold; font-size: 1.3em; }
+        .summary-conclusion { margin-top: 15px; padding-top: 15px; border-top: 2px solid rgba(0,212,255,0.3); font-size: 1.2em; text-align: center; }
+        .summary-conclusion code { background: rgba(0,212,255,0.2); padding: 2px 8px; border-radius: 4px; color: #00d4ff; }
+        
+        /* === Slide 4: 架构图样式 === */
+        .arch-diagram { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: 20px; }
+        .arch-box { background: rgba(255,255,255,0.05); border: 2px solid rgba(0,212,255,0.3); border-radius: 15px; padding: 25px 40px; text-align: center; width: 90%; max-width: 900px; }
+        .user-box { border-color: rgba(233,69,96,0.5); background: rgba(233,69,96,0.1); }
+        .control-plane { border-color: rgba(0,212,255,0.5); background: rgba(0,212,255,0.05); }
+        .result-box { border-color: rgba(0,255,136,0.5); background: rgba(0,255,136,0.1); }
+        .arch-icon { font-size: 2em; margin-bottom: 10px; }
+        .arch-title { font-size: 1.4em; font-weight: bold; color: #fff; }
+        .arch-desc { font-size: 1.2em; color: rgba(255,255,255,0.8); margin-top: 10px; }
+        .arch-arrow { font-size: 2em; color: #00d4ff; }
+        .table-groups { display: flex; gap: 30px; justify-content: center; flex-wrap: wrap; }
+        .table-group { background: rgba(0,0,0,0.3); border-radius: 10px; padding: 15px 20px; min-width: 300px; }
+        .group-title { color: #00d4ff; font-weight: bold; margin-bottom: 10px; font-size: 1.1em; }
+        .table-tags { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+        .tag { background: rgba(0,212,255,0.2); color: #00d4ff; padding: 5px 12px; border-radius: 20px; font-size: 0.9em; font-family: 'Fira Code', monospace; }
+        .tag.secondary { background: rgba(123,44,191,0.2); color: #b388ff; }
+        .table-tags-bilingual { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+        .tag-bi { background: rgba(0,212,255,0.15); border: 1px solid rgba(0,212,255,0.3); border-radius: 8px; padding: 8px 12px; display: flex; flex-direction: column; align-items: center; min-width: 120px; }
+        .tag-bi.secondary { background: rgba(123,44,191,0.15); border-color: rgba(123,44,191,0.3); }
+        .tag-bi .cn { color: #fff; font-weight: bold; font-size: 0.95em; margin-bottom: 4px; }
+        .tag-bi .en { color: rgba(255,255,255,0.6); font-family: 'Fira Code', monospace; font-size: 0.75em; }
+        .tag-bi.secondary .cn { color: #e0b0ff; }
+        .tag-bi.secondary .en { color: rgba(224,176,255,0.6); }
+        .result-content { display: flex; gap: 40px; justify-content: center; margin-top: 10px; }
+        .result-item { font-size: 1.2em; }
+        .result-item .label { color: rgba(255,255,255,0.7); }
+        .result-item .value { color: #00ff88; font-weight: bold; font-family: 'Fira Code', monospace; }
+        
+        /* === Slide 11: 快速体验命令样式 === */
+        .quick-start-box { background: #0d1117; border-radius: 15px; padding: 30px 40px; display: inline-block; text-align: left; border: 2px solid rgba(0,212,255,0.3); max-width: 850px; }
+        .quick-start-title { color: #00d4ff; font-size: 1.3em; font-weight: bold; margin-bottom: 20px; text-align: center; }
+        .quick-start-commands { font-family: 'Fira Code', 'Consolas', monospace; font-size: 1em; }
+        .cmd-line { padding: 8px 0; display: block; white-space: nowrap; }
+        .cmd-prompt { color: #7ee787; margin-right: 10px; }
     </style>
 </head>
 <body>
@@ -327,18 +394,6 @@
         <blockquote>
             核心问题：企业语义靠<span class="warning">"人脑协作"</span>，不是<span class="highlight">"系统能力"</span>
         </blockquote>
-        
-        <style>
-            .conflict-scenario { display: flex; align-items: center; justify-content: center; gap: 30px; margin: 20px 0; }
-            .dept-box { background: rgba(0,0,0,0.3); border-radius: 15px; padding: 25px 35px; text-align: center; min-width: 200px; }
-            .dept-box.finance { border: 2px solid #00d4ff; }
-            .dept-box.sales { border: 2px solid #e94560; }
-            .dept-name { font-size: 1.3em; font-weight: bold; margin-bottom: 10px; }
-            .dept-formula { font-family: 'Fira Code', monospace; color: rgba(255,255,255,0.8); font-size: 1.1em; }
-            .dept-result { font-size: 1.8em; font-weight: bold; margin-top: 10px; }
-            .vs-text { font-size: 2em; font-weight: bold; color: #e94560; }
-            .boss-question { text-align: center; font-size: 1.3em; margin-top: 20px; padding: 15px; background: rgba(233,69,96,0.1); border-radius: 10px; }
-        </style>
     </div>
     
     <!-- Slide 3: Solution -->
@@ -346,39 +401,57 @@
         <h2>💡 解决方案</h2>
         <h3>6 张表回答 6 个问题</h3>
         
-        <table>
+        <table class="table-bilingual">
             <tr>
-                <th>表</th>
+                <th>表名（中/英）</th>
                 <th>回答的问题</th>
-                <th>示例（毛利率场景）</th>
+                <th>示例</th>
             </tr>
             <tr>
-                <td><code>semantic_object</code></td>
+                <td>
+                    <div class="table-name-cn">语义对象</div>
+                    <code>semantic_object</code>
+                </td>
                 <td><strong>什么</strong>是毛利率？</td>
-                <td>Gross Margin，衡量盈利能力的核心指标</td>
+                <td>Gross Margin，衡量盈利能力</td>
             </tr>
             <tr>
-                <td><code>semantic_version</code></td>
+                <td>
+                    <div class="table-name-cn">语义版本</div>
+                    <code>semantic_version</code>
+                </td>
                 <td><strong>哪个</strong>版本适用？</td>
                 <td>v1 财务口径 / v2 销售口径</td>
             </tr>
             <tr>
-                <td><code>logical_definition</code></td>
+                <td>
+                    <div class="table-name-cn">逻辑定义</div>
+                    <code>logical_definition</code>
+                </td>
                 <td><strong>怎么</strong>计算？</td>
-                <td>(revenue - cost) / revenue</td>
+                <td>(收入 - 成本) / 收入</td>
             </tr>
             <tr>
-                <td><code>physical_mapping</code></td>
+                <td>
+                    <div class="table-name-cn">物理映射</div>
+                    <code>physical_mapping</code>
+                </td>
                 <td>数据在<strong>哪里</strong>？</td>
-                <td>SELECT ... FROM finance_fact</td>
+                <td>SELECT ... FROM 财务事实表</td>
             </tr>
             <tr>
-                <td><code>access_policy</code></td>
+                <td>
+                    <div class="table-name-cn">访问策略</div>
+                    <code>access_policy</code>
+                </td>
                 <td><strong>谁</strong>能查？</td>
-                <td>finance_manager ✅, intern ❌</td>
+                <td>财务经理 ✅ / 实习生 ❌</td>
             </tr>
             <tr>
-                <td><code>execution_audit</code></td>
+                <td>
+                    <div class="table-name-cn">执行审计</div>
+                    <code>execution_audit</code>
+                </td>
                 <td><strong>为什么</strong>这样算？</td>
                 <td>15 步决策链完整记录</td>
             </tr>
@@ -405,27 +478,27 @@
                 
                 <div class="table-groups">
                     <div class="table-group">
-                        <div class="group-title">核心执行表 (6张)</div>
-                        <div class="table-tags">
-                            <span class="tag">semantic_object</span>
-                            <span class="tag">semantic_version</span>
-                            <span class="tag">logical_definition</span>
-                            <span class="tag">physical_mapping</span>
-                            <span class="tag">access_policy</span>
-                            <span class="tag">execution_audit</span>
+                        <div class="group-title">🔷 核心执行表 (6张)</div>
+                        <div class="table-tags-bilingual">
+                            <span class="tag-bi"><span class="cn">语义对象</span><span class="en">semantic_object</span></span>
+                            <span class="tag-bi"><span class="cn">语义版本</span><span class="en">semantic_version</span></span>
+                            <span class="tag-bi"><span class="cn">逻辑定义</span><span class="en">logical_definition</span></span>
+                            <span class="tag-bi"><span class="cn">物理映射</span><span class="en">physical_mapping</span></span>
+                            <span class="tag-bi"><span class="cn">访问策略</span><span class="en">access_policy</span></span>
+                            <span class="tag-bi"><span class="cn">执行审计</span><span class="en">execution_audit</span></span>
                         </div>
                     </div>
                     
                     <div class="table-group">
-                        <div class="group-title">本体论 & 治理表 (7张)</div>
-                        <div class="table-tags">
-                            <span class="tag secondary">ontology_entity</span>
-                            <span class="tag secondary">ontology_dimension</span>
-                            <span class="tag secondary">ontology_attribute</span>
-                            <span class="tag secondary">metric_entity_map</span>
-                            <span class="tag secondary">metric_dependency</span>
-                            <span class="tag secondary">term_dictionary</span>
-                            <span class="tag secondary">ontology_relationship</span>
+                        <div class="group-title">🔶 本体论 & 治理表 (7张)</div>
+                        <div class="table-tags-bilingual">
+                            <span class="tag-bi secondary"><span class="cn">本体实体</span><span class="en">ontology_entity</span></span>
+                            <span class="tag-bi secondary"><span class="cn">本体维度</span><span class="en">ontology_dimension</span></span>
+                            <span class="tag-bi secondary"><span class="cn">本体属性</span><span class="en">ontology_attribute</span></span>
+                            <span class="tag-bi secondary"><span class="cn">指标实体映射</span><span class="en">metric_entity_map</span></span>
+                            <span class="tag-bi secondary"><span class="cn">指标依赖</span><span class="en">metric_dependency</span></span>
+                            <span class="tag-bi secondary"><span class="cn">术语词典</span><span class="en">term_dictionary</span></span>
+                            <span class="tag-bi secondary"><span class="cn">本体关系</span><span class="en">ontology_relationship</span></span>
                         </div>
                     </div>
                 </div>
@@ -442,108 +515,6 @@
                 </div>
             </div>
         </div>
-        
-        <style>
-            .arch-diagram {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 10px;
-                margin-top: 20px;
-            }
-            .arch-box {
-                background: rgba(255,255,255,0.05);
-                border: 2px solid rgba(0,212,255,0.3);
-                border-radius: 15px;
-                padding: 25px 40px;
-                text-align: center;
-                width: 90%;
-                max-width: 900px;
-            }
-            .user-box {
-                border-color: rgba(233,69,96,0.5);
-                background: rgba(233,69,96,0.1);
-            }
-            .control-plane {
-                border-color: rgba(0,212,255,0.5);
-                background: rgba(0,212,255,0.05);
-            }
-            .result-box {
-                border-color: rgba(0,255,136,0.5);
-                background: rgba(0,255,136,0.1);
-            }
-            .arch-icon {
-                font-size: 2em;
-                margin-bottom: 10px;
-            }
-            .arch-title {
-                font-size: 1.4em;
-                font-weight: bold;
-                color: #fff;
-            }
-            .arch-desc {
-                font-size: 1.2em;
-                color: rgba(255,255,255,0.8);
-                margin-top: 10px;
-            }
-            .arch-arrow {
-                font-size: 2em;
-                color: #00d4ff;
-            }
-            .table-groups {
-                display: flex;
-                gap: 30px;
-                justify-content: center;
-                flex-wrap: wrap;
-            }
-            .table-group {
-                background: rgba(0,0,0,0.3);
-                border-radius: 10px;
-                padding: 15px 20px;
-                min-width: 300px;
-            }
-            .group-title {
-                color: #00d4ff;
-                font-weight: bold;
-                margin-bottom: 10px;
-                font-size: 1.1em;
-            }
-            .table-tags {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 8px;
-                justify-content: center;
-            }
-            .tag {
-                background: rgba(0,212,255,0.2);
-                color: #00d4ff;
-                padding: 5px 12px;
-                border-radius: 20px;
-                font-size: 0.9em;
-                font-family: 'Fira Code', monospace;
-            }
-            .tag.secondary {
-                background: rgba(123,44,191,0.2);
-                color: #b388ff;
-            }
-            .result-content {
-                display: flex;
-                gap: 40px;
-                justify-content: center;
-                margin-top: 10px;
-            }
-            .result-item {
-                font-size: 1.2em;
-            }
-            .result-item .label {
-                color: rgba(255,255,255,0.7);
-            }
-            .result-item .value {
-                color: #00ff88;
-                font-weight: bold;
-                font-family: 'Fira Code', monospace;
-            }
-        </style>
     </div>
     
     <!-- Slide 5: Execution Flow -->
@@ -632,23 +603,6 @@ parameters = {
                 ✅ 系统根据 <code>scenario</code> 返回 <span class="highlight">财务口径 23.5%</span>，并记录完整决策链
             </div>
         </div>
-        
-        <style>
-            .demo-result-container { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 20px 0; }
-            .demo-section h3 { color: #00d4ff; margin-bottom: 15px; font-size: 1.4em; }
-            .code-comment { color: #6a737d; font-style: italic; }
-            .code-string { color: #a5d6ff; }
-            .code-key { color: #7ee787; }
-            .result-summary { background: rgba(0,0,0,0.3); border-radius: 15px; padding: 25px; margin-top: 20px; }
-            .summary-item { display: flex; align-items: center; gap: 15px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 1.2em; }
-            .summary-item:last-of-type { border-bottom: none; }
-            .summary-icon { font-size: 1.5em; }
-            .summary-label { font-weight: bold; min-width: 100px; }
-            .summary-formula { color: rgba(255,255,255,0.7); font-family: 'Fira Code', monospace; flex: 1; }
-            .summary-result { font-weight: bold; font-size: 1.3em; }
-            .summary-conclusion { margin-top: 15px; padding-top: 15px; border-top: 2px solid rgba(0,212,255,0.3); font-size: 1.2em; text-align: center; }
-            .summary-conclusion code { background: rgba(0,212,255,0.2); padding: 2px 8px; border-radius: 4px; color: #00d4ff; }
-        </style>
     </div>
     
     <!-- Slide 7: Enterprise Value -->
@@ -793,14 +747,6 @@ $ pytest tests/ -v
                 <div class="cmd-line"><span class="cmd-prompt">$</span> python3 demo_detailed_logs.py</div>
             </div>
         </div>
-        
-        <style>
-            .quick-start-box { background: #0d1117; border-radius: 15px; padding: 30px 40px; display: inline-block; text-align: left; border: 2px solid rgba(0,212,255,0.3); max-width: 800px; }
-            .quick-start-title { color: #00d4ff; font-size: 1.3em; font-weight: bold; margin-bottom: 20px; text-align: center; }
-            .quick-start-commands { font-family: 'Fira Code', 'Consolas', monospace; font-size: 1em; line-height: 2.2; }
-            .cmd-line { padding: 5px 0; }
-            .cmd-prompt { color: #7ee787; margin-right: 10px; }
-        </style>
     </div>
     
     <!-- Navigation -->
