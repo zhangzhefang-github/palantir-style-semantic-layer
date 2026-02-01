@@ -424,7 +424,7 @@
             <div class="conflict-scenario">
                 <div class="dept-box finance">
                     <div class="dept-name">💰 财务部</div>
-                    <div class="dept-formula">(收入-成本)/收入</div>
+                    <div class="dept-formula">(收入-总成本)/收入</div>
                     <div class="dept-result">= <span class="warning">23.5%</span></div>
                 </div>
                 <div class="vs-text">VS</div>
@@ -541,7 +541,7 @@
                     <code>logical_definition</code>
                 </td>
                 <td><strong>怎么</strong>计算？</td>
-                <td>(收入 - 成本) / 收入</td>
+                <td>(收入 - 总成本) / 收入</td>
             </tr>
             <tr>
                 <td>
@@ -690,7 +690,7 @@
                 <div class="arch-icon">📊</div>
                 <div class="result-content">
                     <div class="result-item"><span class="label">返回结果:</span> <span class="value">毛利率 = 23.5%</span></div>
-                    <div class="result-item"><span class="label">Audit ID:</span> <span class="value">20260201_xxxx</span></div>
+                    <div class="result-item"><span class="label">Audit ID:</span> <span class="value">20260201_143022_a8f3e2b1</span></div>
                 </div>
             </div>
         </div>
@@ -718,7 +718,7 @@
             </div>
             <div class="flow-step active">
                 <strong>4️⃣ 物理映射</strong> <span style="color: #00d4ff; font-size: 0.9em;">（校验 Join Key & 粒度）</span><br>
-                SELECT (SUM(revenue)-SUM(cost))/SUM(revenue) FROM finance_fact ...
+                <code style="font-size: 0.85em;">SELECT (SUM(revenue)-SUM(total_cost))/SUM(revenue) AS gross_margin FROM fact_finance WHERE region='华东' AND period='2026-01'</code>
             </div>
             <div class="flow-step active">
                 <strong>5️⃣ 策略检查</strong> <span style="color: #00d4ff; font-size: 0.9em;">（权限 + 结论级别：相关/归因/因果）</span><br>
