@@ -360,33 +360,161 @@
     <div class="slide" id="slide4">
         <h2>🏗️ 核心架构</h2>
         
-        <div class="architecture-box">
-            <div class="code-block" style="text-align: center;">
-┌─────────────────────────────────────────────┐
-│           用户 / AI Agent                    │
-│  "昨天产线A的一次合格率是多少？"               │
-└─────────────────────────────────────────────┘
-                      ↓
-┌─────────────────────────────────────────────┐
-│         语义控制面（13 张业务表）             │
-│                                             │
-│  ┌─ 核心执行表 (6张) ───────────────────┐    │
-│  │ semantic_object │ semantic_version │   │
-│  │ logical_def     │ physical_mapping │   │
-│  │ access_policy   │ execution_audit  │   │
-│  └───────────────────────────────────┘    │
-│                                             │
-│  ┌─ 本体论表 (7张) ─────────────────────┐    │
-│  │ ontology_* │ metric_* │ term_dict  │   │
-│  └───────────────────────────────────┘    │
-└─────────────────────────────────────────────┘
-                      ↓
-┌─────────────────────────────────────────────┐
-│         返回结果：FPY = 0.963               │
-│         Audit ID: 20260201_xxxx             │
-└─────────────────────────────────────────────┘
+        <div class="arch-diagram">
+            <!-- 顶部：用户层 -->
+            <div class="arch-box user-box">
+                <div class="arch-icon">👤</div>
+                <div class="arch-title">用户 / AI Agent</div>
+                <div class="arch-desc">"昨天产线A的一次合格率是多少？"</div>
+            </div>
+            
+            <div class="arch-arrow">↓</div>
+            
+            <!-- 中间：语义控制面 -->
+            <div class="arch-box control-plane">
+                <div class="arch-title" style="color: #00d4ff; margin-bottom: 20px;">语义控制面（13 张业务表）</div>
+                
+                <div class="table-groups">
+                    <div class="table-group">
+                        <div class="group-title">核心执行表 (6张)</div>
+                        <div class="table-tags">
+                            <span class="tag">semantic_object</span>
+                            <span class="tag">semantic_version</span>
+                            <span class="tag">logical_definition</span>
+                            <span class="tag">physical_mapping</span>
+                            <span class="tag">access_policy</span>
+                            <span class="tag">execution_audit</span>
+                        </div>
+                    </div>
+                    
+                    <div class="table-group">
+                        <div class="group-title">本体论 & 治理表 (7张)</div>
+                        <div class="table-tags">
+                            <span class="tag secondary">ontology_entity</span>
+                            <span class="tag secondary">ontology_dimension</span>
+                            <span class="tag secondary">ontology_attribute</span>
+                            <span class="tag secondary">metric_entity_map</span>
+                            <span class="tag secondary">metric_dependency</span>
+                            <span class="tag secondary">term_dictionary</span>
+                            <span class="tag secondary">ontology_relationship</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="arch-arrow">↓</div>
+            
+            <!-- 底部：结果 -->
+            <div class="arch-box result-box">
+                <div class="arch-icon">📊</div>
+                <div class="result-content">
+                    <div class="result-item"><span class="label">返回结果:</span> <span class="value">FPY = 0.963</span></div>
+                    <div class="result-item"><span class="label">Audit ID:</span> <span class="value">20260201_xxxx</span></div>
+                </div>
             </div>
         </div>
+        
+        <style>
+            .arch-diagram {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+                margin-top: 20px;
+            }
+            .arch-box {
+                background: rgba(255,255,255,0.05);
+                border: 2px solid rgba(0,212,255,0.3);
+                border-radius: 15px;
+                padding: 25px 40px;
+                text-align: center;
+                width: 90%;
+                max-width: 900px;
+            }
+            .user-box {
+                border-color: rgba(233,69,96,0.5);
+                background: rgba(233,69,96,0.1);
+            }
+            .control-plane {
+                border-color: rgba(0,212,255,0.5);
+                background: rgba(0,212,255,0.05);
+            }
+            .result-box {
+                border-color: rgba(0,255,136,0.5);
+                background: rgba(0,255,136,0.1);
+            }
+            .arch-icon {
+                font-size: 2em;
+                margin-bottom: 10px;
+            }
+            .arch-title {
+                font-size: 1.4em;
+                font-weight: bold;
+                color: #fff;
+            }
+            .arch-desc {
+                font-size: 1.2em;
+                color: rgba(255,255,255,0.8);
+                margin-top: 10px;
+            }
+            .arch-arrow {
+                font-size: 2em;
+                color: #00d4ff;
+            }
+            .table-groups {
+                display: flex;
+                gap: 30px;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            .table-group {
+                background: rgba(0,0,0,0.3);
+                border-radius: 10px;
+                padding: 15px 20px;
+                min-width: 300px;
+            }
+            .group-title {
+                color: #00d4ff;
+                font-weight: bold;
+                margin-bottom: 10px;
+                font-size: 1.1em;
+            }
+            .table-tags {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                justify-content: center;
+            }
+            .tag {
+                background: rgba(0,212,255,0.2);
+                color: #00d4ff;
+                padding: 5px 12px;
+                border-radius: 20px;
+                font-size: 0.9em;
+                font-family: 'Fira Code', monospace;
+            }
+            .tag.secondary {
+                background: rgba(123,44,191,0.2);
+                color: #b388ff;
+            }
+            .result-content {
+                display: flex;
+                gap: 40px;
+                justify-content: center;
+                margin-top: 10px;
+            }
+            .result-item {
+                font-size: 1.2em;
+            }
+            .result-item .label {
+                color: rgba(255,255,255,0.7);
+            }
+            .result-item .value {
+                color: #00ff88;
+                font-weight: bold;
+                font-family: 'Fira Code', monospace;
+            }
+        </style>
     </div>
     
     <!-- Slide 5: Execution Flow -->
