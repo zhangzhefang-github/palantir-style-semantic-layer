@@ -23,9 +23,11 @@
 - [Quick Start](#-quick-start)
 - [Usage](#-usage)
 - [Database Schema](#-database-schema)
+- [Core Modules](#-core-modules)
 - [Design Principles](#-design-principles)
 - [Enterprise Readiness](#-enterprise-readiness)
 - [Project Status](#-project-status)
+- [Documentation](#-documentation)
 - [Contributing](#-contributing)
 - [License](#-license)
 
@@ -79,8 +81,11 @@ Entity/Dimension/Attribute/Relationship tables provide an ontology backbone.
 See [`MODELING_GUIDE.md`](MODELING_GUIDE.md) for naming, hierarchy, and change rules.
 
 ### 7. Impact Analysis (DAG)
-Metric dependencies and entity mappings enable impact analysis.
-Use `impact()` and `diff_versions()` for DAG-based governance.
+Metric dependencies and entity mappings enable impact analysis with:
+- `build_dependency_graph()` - Build DAG dependency graph
+- `impact()` - Analyze change blast radius
+- `diff()` - Compare two version differences
+- `generate_report()` - Generate impact analysis report with risk assessment
 
 ---
 
@@ -100,16 +105,18 @@ Use `impact()` and `diff_versions()` for DAG-based governance.
 └─────────────────────────────────────────────────────────────────┘
                               ↓
 ┌─────────────────────────────────────────────────────────────────┐
-│            SEMANTIC CONTROL PLANE (6 Core Tables)               │
+│         SEMANTIC CONTROL PLANE (13 Business Tables)             │
 │                                                                 │
-│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐  │
-│  │ semantic_object │  │ semantic_version│  │logical_definition│ │
-│  │   WHAT exists   │  │  WHICH applies  │  │   HOW to calc   │  │
-│  └─────────────────┘  └─────────────────┘  └─────────────────┘  │
-│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐  │
-│  │ physical_mapping│  │  access_policy  │  │ execution_audit │  │
-│  │   WHERE data    │  │   WHO can do    │  │   WHY decided   │  │
-│  └─────────────────┘  └─────────────────┘  └─────────────────┘  │
+│  ┌─ Core Execution Tables (6) ─────────────────────────────┐    │
+│  │ semantic_object    │ semantic_version │ logical_definition│   │
+│  │ physical_mapping   │ access_policy    │ execution_audit   │   │
+│  └─────────────────────────────────────────────────────────┘    │
+│                                                                 │
+│  ┌─ Ontology & Governance Tables (7) ──────────────────────┐    │
+│  │ ontology_entity    │ ontology_dimension│ ontology_attribute│  │
+│  │ ontology_relationship │ metric_entity_map │ metric_dependency│ │
+│  │ term_dictionary    │                   │                    │  │
+│  └─────────────────────────────────────────────────────────┘    │
 └─────────────────────────────────────────────────────────────────┘
                               ↓
 ┌─────────────────────────────────────────────────────────────────┐
@@ -229,7 +236,17 @@ print(f"Audit ID: {result['audit_id']}")
 
 ## 🗄️ Database Schema
 
-### The 6 Core Tables
+### Overview: 13 Business Tables + 1 Mock Data Table
+
+The semantic control plane uses a **two-layer table architecture**:
+
+| Layer | Count | Purpose |
+|-------|-------|---------|
+| Core Execution | 6 tables | Query execution pipeline |
+| Ontology & Governance | 7 tables | Semantic modeling & impact analysis |
+| Mock Data | 1 table | Demo physical data |
+
+### Layer 1: Core Execution Tables (6)
 
 | Table | Purpose | Key Fields |
 |-------|---------|------------|
@@ -239,6 +256,51 @@ print(f"Audit ID: {result['audit_id']}")
 | `physical_mapping` | **WHERE** data lives | `sql_template`, `engine_type`, `connection_ref` |
 | `access_policy` | **WHO** can do what | `role`, `action`, `conditions` |
 | `execution_audit` | **WHY** decisions were made | `decision_trace`, `final_sql`, `parameters` |
+
+### Layer 2: Ontology & Governance Tables (7)
+
+| Table | Purpose | Key Fields |
+|-------|---------|------------|
+| `ontology_entity` | Core business entities | `name`, `domain`, `description` |
+| `ontology_dimension` | Entity dimensions (slicing axes) | `entity_id`, `name`, `data_type` |
+| `ontology_attribute` | Entity attributes | `entity_id`, `name`, `is_key` |
+| `ontology_relationship` | Entity relationships | `from_entity_id`, `to_entity_id`, `cardinality` |
+| `metric_entity_map` | Metric-entity mapping | `metric_id`, `entity_id`, `grain_level` |
+| `metric_dependency` | Metric DAG edges | `upstream_metric_id`, `downstream_metric_id` |
+| `term_dictionary` | Term normalization | `term`, `normalized_term`, `language` |
+
+### Mock Data Table (1)
+
+| Table | Purpose |
+|-------|---------|
+| `fact_production_records` | Demo production data for testing |
+
+---
+
+## 🧩 Core Modules
+
+### Semantic Layer (`src/semantic_layer/`)
+
+| Module | Purpose |
+|--------|---------|
+| `orchestrator.py` | Core orchestrator - coordinates all resolution steps |
+| `semantic_resolver.py` | Semantic object & version resolution |
+| `policy_engine.py` | RBAC + ABAC policy enforcement |
+| `execution_engine.py` | SQL rendering & execution |
+| `models.py` | Data models (6 core classes + exceptions) |
+| `impact_analysis.py` | **DAG-based impact analysis & version diff** |
+| `scenario_matcher.py` | Scenario condition matching |
+| `grain_validator.py` | Metric grain validation |
+| `dependency_builder.py` | Dependency graph construction |
+| `interfaces.py` | Abstract interfaces |
+| `sqlite_stores.py` | SQLite metadata store implementation |
+| `config.py` | Configuration management |
+
+### Governance (`src/governance/`)
+
+| Module | Purpose |
+|--------|---------|
+| `approval_package.py` | Approval package generation for change governance |
 
 ---
 
@@ -333,12 +395,15 @@ VALUES
 ### ✅ Implemented
 
 - End-to-end semantic query execution
-- Policy enforcement
+- Policy enforcement (RBAC + ABAC)
 - Audit and replay
 - Preview mode
 - Ambiguity detection
-- Version selection
+- Version selection (scenario + priority)
 - SQL template rendering
+- **Ontology modeling (Entity/Dimension/Attribute/Relationship)**
+- **Impact analysis (DAG-based)**
+- **Term dictionary normalization**
 
 ### ⚠️ Limitations
 
@@ -355,18 +420,56 @@ VALUES
 ```
 palantir-style-semantic-layer/
 ├── src/
-│   ├── semantic_layer/       # Core semantic control plane modules
-│   └── governance/           # Approval and governance artifact tools
-├── tests/                    # Unit/Integration/E2E/Snapshot tests
+│   ├── semantic_layer/           # Core semantic control plane
+│   │   ├── orchestrator.py       # Core orchestrator
+│   │   ├── semantic_resolver.py  # Semantic resolution
+│   │   ├── policy_engine.py      # Policy enforcement
+│   │   ├── execution_engine.py   # SQL execution
+│   │   ├── models.py             # Data models
+│   │   ├── impact_analysis.py    # Impact analysis (DAG)
+│   │   ├── scenario_matcher.py   # Scenario matching
+│   │   ├── grain_validator.py    # Grain validation
+│   │   ├── dependency_builder.py # Dependency builder
+│   │   ├── interfaces.py         # Interfaces
+│   │   ├── sqlite_stores.py      # SQLite stores
+│   │   └── config.py             # Configuration
+│   └── governance/
+│       └── approval_package.py   # Approval package generator
+├── tests/
+│   ├── e2e/                      # End-to-end tests
+│   ├── approval/                 # Approval tests
+│   ├── consistency/              # Consistency tests
+│   ├── performance/              # Performance tests
+│   ├── snapshots/                # Snapshot tests
+│   ├── test_enterprise_challenges.py
+│   ├── test_impact_analysis.py
+│   └── ...
 ├── docs/
-│   └── validation/           # Validation and acceptance artifacts
-├── data/                     # SQLite database
-├── schema.sql                # Database schema
-├── seed_data.sql             # Seed data
-├── VALIDATION_PLAN.md        # Change scenario test set
-├── REPORT_REVIEW_CHECKLIST.md
-└── MODELING_GUIDE.md         # Ontology modeling guide
+│   └── validation/               # Validation artifacts
+├── data/                         # SQLite database
+├── schema.sql                    # Database schema (13 tables)
+├── seed_data.sql                 # Seed data
+├── demo_queries.py               # Interactive demo
+├── demo_detailed_logs.py         # Detailed logs demo
+└── manual_test.py                # Manual verification
 ```
+
+---
+
+## 📚 Documentation
+
+| Document | Description |
+|----------|-------------|
+| [`QUICKSTART.md`](QUICKSTART.md) | 5-minute quick start guide |
+| [`MODELING_GUIDE.md`](MODELING_GUIDE.md) | Semantic modeling conventions |
+| [`TESTING_GUIDE.md`](TESTING_GUIDE.md) | Test verification guide |
+| [`DETAILED_LOGS_GUIDE.md`](DETAILED_LOGS_GUIDE.md) | Detailed logs demo guide |
+| [`PROJECT_SUMMARY.md`](PROJECT_SUMMARY.md) | Project completion report |
+| [`VALIDATION_PLAN.md`](VALIDATION_PLAN.md) | Change scenario test set |
+| [`REPORT_REVIEW_CHECKLIST.md`](REPORT_REVIEW_CHECKLIST.md) | Report review checklist |
+| [`PILOT_ACCEPTANCE_REPORT_TEMPLATE.md`](PILOT_ACCEPTANCE_REPORT_TEMPLATE.md) | Pilot acceptance template |
+| [`tests/README.md`](tests/README.md) | Test suite documentation |
+| [`tests/TEST_REPORT.md`](tests/TEST_REPORT.md) | Test report |
 
 ---
 
@@ -381,11 +484,19 @@ Contributions are welcome! Please ensure your changes are:
 ### Development
 
 ```bash
-# Run tests
+# Run all tests
 pytest tests/ -v
 
-# Run specific test file
-pytest tests/test_enterprise_challenges.py -v
+# Run specific test categories
+pytest tests/test_enterprise_challenges.py -v  # Enterprise challenges
+pytest tests/test_impact_analysis.py -v        # Impact analysis
+pytest tests/test_e2e.py -v                    # End-to-end
+
+# Run manual verification
+python manual_test.py
+
+# Run detailed logs demo
+python demo_detailed_logs.py
 ```
 
 ---
