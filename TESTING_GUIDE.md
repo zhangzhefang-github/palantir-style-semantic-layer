@@ -71,7 +71,7 @@ rm -rf data/
 # 运行完整测试套件
 python3 -m pytest tests/ -v
 
-# 预期输出：134 passed, 1 skipped
+# 预期输出：157 passed, 1 skipped
 ```
 
 ---
@@ -230,6 +230,9 @@ sqlite3 data/semantic_layer.db "SELECT audit_id, question, semantic_object_name,
 | **数仓迁移会破坏业务逻辑吗？** | Physical Mapping 切换测试 | ✅ |
 | **系统敢算吗（可审计）？** | 决策链可解释性 + Replay 一致性 | ✅ |
 | **Partial match 会意外触发吗？** | Scenario 全量匹配测试 | ✅ |
+| **跨部门口径冲突怎么办？** | test_gross_margin_scenario.py（毛利率场景） | ✅ |
+| **Ontology 能约束什么？** | test_ontology_constraints.py（Joinability/Comparability/Explainability） | ✅ |
+| **弱关联能下因果结论吗？** | test_fail_closed.py（Fail-Closed 机制） | ✅ |
 
 ---
 
@@ -261,8 +264,11 @@ python3 -m pytest tests/ --co -q
 - ✅ manual_test.py：所有 4 个测试通过
 - ✅ test_enterprise_challenges.py：5/5 测试通过
 - ✅ test_e2e.py：12/12 测试通过
+- ✅ test_gross_margin_scenario.py：5/5 测试通过（毛利率场景）
+- ✅ test_ontology_constraints.py：8/8 测试通过（三类约束）
+- ✅ test_fail_closed.py：10/10 测试通过（Fail-Closed）
 - ✅ 覆盖率：orchestrator.py 100%
-- ✅ 总计：134 passed, 1 skipped
+- ✅ 总计：157 passed, 1 skipped
 
 ---
 

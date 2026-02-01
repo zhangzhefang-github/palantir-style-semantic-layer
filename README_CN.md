@@ -5,7 +5,7 @@
 [![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
 [![SQLite](https://img.shields.io/badge/SQLite-3-003B57?style=flat-square&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
 [![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
-[![Tests](https://img.shields.io/badge/Tests-134%20passed-success?style=flat-square)](tests/)
+[![Tests](https://img.shields.io/badge/Tests-157%20passed-success?style=flat-square)](tests/)
 
 **语义层运行时控制面参考架构 POC**
 
@@ -395,7 +395,7 @@ VALUES
 | 完整审计 | ✅ 每一步可追溯 |
 | 重放安全 | ✅ 相同 SQL，差异可解释 |
 | 迁移无忧 | ✅ 物理变更隔离 |
-| 测试覆盖 | ✅ 134 个测试通过，1 个跳过 |
+| 测试覆盖 | ✅ 157 个测试通过，1 个跳过 |
 | 冲突安全 | ✅ 基于优先级的确定性解决 |
 
 ---
