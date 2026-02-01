@@ -7,3 +7,4 @@ __pycache__/
 *.pyd
 data/
 full_logs.txt
+.env

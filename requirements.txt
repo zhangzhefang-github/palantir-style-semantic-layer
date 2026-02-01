@@ -1,13 +1,20 @@
 # Palantir-Style Semantic Control Plane - Python Dependencies
 
 # Core dependencies
- SQLAlchemy>=2.0.0
+SQLAlchemy>=2.0.0
 Jinja2>=3.1.0
+python-dotenv>=1.0.0
 
-# Optional dependencies for production use
-# FastAPI for REST API (uncomment if needed)
-# fastapi>=0.100.0
-# uvicorn[standard]>=0.23.0
+# Optional: LangChain integrations (uncomment as needed)
+# langchain>=0.3.0
+# langchain-google-genai>=2.0.0
+# langchain-groq>=0.2.0
+# langchain-openai>=0.2.0
+# pydantic>=2.0.0
+
+# Optional: REST API (uncomment if needed)
+# flask>=3.0.0
+# flask-cors>=4.0.0
 
 # Development dependencies
 pytest>=7.4.0

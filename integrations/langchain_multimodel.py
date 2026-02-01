@@ -3,10 +3,10 @@
 LangChain 多模型集成 - 支持 Gemini 和 Groq
 
 使用方法:
-    pip install langchain langchain-google-genai langchain-groq
-    export GOOGLE_API_KEY=your_gemini_key
-    export GROQ_API_KEY=your_groq_key
-    python integrations/langchain_multimodel.py
+    1. pip install langchain langchain-google-genai langchain-groq python-dotenv
+    2. cp .env.example .env
+    3. 编辑 .env 填入你的 API Key
+    4. python integrations/langchain_multimodel.py
 
 支持的模型:
     - Gemini: gemini-2.5-flash-lite, gemini-2.5-flash, gemini-2.5-pro
@@ -17,9 +17,26 @@ import os
 import sys
 from typing import Optional, Literal
 from datetime import datetime
+from pathlib import Path
 
 # Add project root to path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
+project_root = Path(__file__).parent.parent
+sys.path.insert(0, str(project_root / 'src'))
+
+# 自动加载 .env 文件
+try:
+    from dotenv import load_dotenv
+    env_path = project_root / '.env'
+    if env_path.exists():
+        load_dotenv(env_path)
+        print(f"✅ 已从 {env_path} 加载环境变量")
+    else:
+        # 尝试从当前目录加载
+        if Path('.env').exists():
+            load_dotenv('.env')
+            print("✅ 已从 .env 加载环境变量")
+except ImportError:
+    pass  # python-dotenv 未安装，依赖手动 export
 
 # ============================================================
 # 1️⃣ 检查依赖
