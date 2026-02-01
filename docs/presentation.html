@@ -450,7 +450,7 @@
     
     <!-- Slide 3: Cross-Domain Challenge (老板追问) -->
     <div class="slide" id="slide3">
-        <h2>🔥 老板追问：为什么 Ontology 是必需的？</h2>
+        <h2>🔥 老板追问：什么时候必须上本体（Ontology）？</h2>
         
         <div class="boss-followup">
             <div class="boss-avatar">👔</div>
@@ -490,12 +490,12 @@
         
         <div class="comparison-box">
             <div class="comparison-item bad">
-                <div class="comparison-title">❌ 没有 Ontology</div>
-                <div class="comparison-desc">NL2SQL 瞎猜 JOIN 条件<br>用户自己写 SQL 或找工程师<br>容易"乱联、乱说"</div>
+                <div class="comparison-title">❌ 没有本体约束</div>
+                <div class="comparison-desc">缺少 Join 约束与粒度约束<br>→ 容易生成业务不成立的 SQL<br>缺少归因/因果约束 → 容易输出不可审计的结论</div>
             </div>
             <div class="comparison-item good">
-                <div class="comparison-title">✅ 有 Ontology</div>
-                <div class="comparison-desc">系统知道哪些域能连<br>怎么连（Join Key）<br>能不能做因果推断</div>
+                <div class="comparison-title">✅ 有本体约束</div>
+                <div class="comparison-desc">系统知道哪些域能连<br>怎么连（Join Key + 粒度）<br>能不能做因果推断（有明确约束）</div>
             </div>
         </div>
     </div>
@@ -562,9 +562,9 @@
         </table>
     </div>
     
-    <!-- Slide 5: Ontology = 三类约束 -->
+    <!-- Slide 5: 本体 = 三类约束 -->
     <div class="slide" id="slide5">
-        <h2>🧬 Ontology = 三类约束系统</h2>
+        <h2>🧬 本体（Ontology）= 三类约束系统</h2>
         <h3 style="color: rgba(255,255,255,0.7);">不是为了更智能，是为了<span class="warning">不犯错</span></h3>
         
         <div class="constraint-cards">
@@ -589,7 +589,7 @@
                 <div class="constraint-title">可解释约束</div>
                 <div class="constraint-desc">允许得出什么结论</div>
                 <div class="constraint-example">
-                    相关 ✅ | 归因 ⚠️ | 因果 ❌
+                    相关 ✅（对照/趋势）| 归因 ⚠️（需规则/实验）| 因果 ❌（默认禁止）
                 </div>
             </div>
         </div>
@@ -615,6 +615,9 @@
                 <span class="rel-node">Order</span> <span class="rel-edge">→ fulfillment_cost →</span> <span class="rel-node">Cost</span>
             </div>
         </div>
+        <p style="color: rgba(255,255,255,0.5); font-size: 0.9em; margin-top: 10px;">
+            📌 <span class="warning">weak_link</span>：可用于对照分析，禁止直接下因果结论
+        </p>
     </div>
     
     <!-- Slide 6: Architecture -->
@@ -649,7 +652,7 @@
                     </div>
                     
                     <div class="table-group">
-                        <div class="group-title">🔶 本体论 & 治理表 (7张)</div>
+                        <div class="group-title">🔶 本体 & 治理表 (7张)</div>
                         <div class="table-tags-bilingual">
                             <span class="tag-bi secondary"><span class="cn">本体实体</span><span class="en">ontology_entity</span></span>
                             <span class="tag-bi secondary"><span class="cn">本体维度</span><span class="en">ontology_dimension</span></span>
@@ -687,7 +690,7 @@
             </div>
             <div class="flow-step active">
                 <strong>2️⃣ 版本选择</strong><br>
-                scenario={'department':'finance'} → GrossMargin_v1_finance (score=2)
+                scenario={'role':'finance_manager','use_case':'monthly_close'} → GrossMargin_v1_finance (score=2)
             </div>
             <div class="flow-step active">
                 <strong>3️⃣ 逻辑解析</strong><br>
@@ -727,7 +730,10 @@ question = <span class="code-string">"上月华东区毛利率是多少？"</spa
 parameters = {
     <span class="code-key">"region"</span>: <span class="code-string">"华东"</span>,
     <span class="code-key">"period"</span>: <span class="code-string">"2026-01"</span>,
-    <span class="code-key">"scenario"</span>: {<span class="code-key">"department"</span>: <span class="code-string">"finance"</span>}
+    <span class="code-key">"scenario"</span>: {
+        <span class="code-key">"role"</span>: <span class="code-string">"finance_manager"</span>,
+        <span class="code-key">"use_case"</span>: <span class="code-string">"monthly_close"</span>
+    }
 }</div>
             </div>
             <div class="demo-section">
@@ -825,7 +831,7 @@ parameters = {
                 <div class="fc-content">"广告点击率很高，为什么订单没涨？给我结论。"</div>
             </div>
             
-            <div class="fc-arrow">↓ 系统检查 Ontology 约束 ↓</div>
+            <div class="fc-arrow">↓ 系统检查本体约束 ↓</div>
             
             <div class="fc-response">
                 <div class="fc-label">🤖 系统返回</div>
@@ -848,13 +854,13 @@ parameters = {
                     </div>
                 </div>
                 <div class="fc-reason">
-                    <strong>拒绝原因：</strong><code>AdClick → Order</code> 是 <span class="warning">weak_link</span>，未满足归因规则
+                    <strong>拒绝原因：</strong><code>AdClick → User</code> 为 <span class="warning">weak_link</span>，<code>User → Order</code> 仅 conversion_link，未满足 attribution_rule
                 </div>
             </div>
         </div>
         
         <blockquote style="margin-top: 20px;">
-            🎯 Ontology 的核心价值：<span class="highlight">约束系统别乱联、别乱说</span>
+            🎯 本体的核心价值：<span class="highlight">约束系统别乱联、别乱说</span>
         </blockquote>
     </div>
     
@@ -899,6 +905,7 @@ parameters = {
     <!-- Slide 12: Test Results -->
     <div class="slide" id="slide12">
         <h2>✅ 验证结果</h2>
+        <p style="color: rgba(255,255,255,0.6); font-size: 1em; margin-bottom: 15px;">新增本体约束与 Fail-Closed 用例后：测试从 134 → 157</p>
         
         <div class="grid">
             <div class="card">
